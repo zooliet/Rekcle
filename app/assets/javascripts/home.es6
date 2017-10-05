@@ -13,7 +13,7 @@ $(document).ready(function(){
       margin: { top: 10, bottom: 10, left: 10, right: 10 },
     };
 
-    chartFactory = (opts, proto = protoChart) => {
+    const chartFactory = (opts, proto = protoChart) => {
       const chart = Object.assign({}, proto, opts);
 
       chart.svg = d3.select('svg')
@@ -29,7 +29,7 @@ $(document).ready(function(){
       return chart;
     }
 
-    chart = chartFactory({
+    const chart = chartFactory({
       width: parseInt($('div.home').width() * 0.9),
       height: parseInt(Math.min($('main').height() * 0.4, $('div.home').width() * 0.6)),
     })
