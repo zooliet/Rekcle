@@ -49,7 +49,7 @@ $(document).ready(function(){
       });
     }
 
-    chart.loadData('data.tsv')
+    chart.loadData('/data/data.tsv')
 
     chart.render = (data) => {
       const parseTime = d3.timeParse("%Y%m%d");
