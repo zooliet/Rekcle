@@ -32,6 +32,17 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+group :development do
+  gem 'capistrano', '~> 3.6'
+  gem 'capistrano-rails', '~> 1.3'
+  gem 'capistrano-bundler', '~> 1.3'
+  gem 'capistrano-rvm'
+  gem 'capistrano-postgresql', '~> 4.2.0'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails-console', require: false
+  gem 'capistrano-maintenance', '~> 1.0', require: false
+  gem 'sshkit-sudo'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
