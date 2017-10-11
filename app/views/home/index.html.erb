@@ -1,9 +1,14 @@
 <!-- <script src="//d3js.org/d3.v4.min.js"></script> -->
-<div class="container home d-flex flex-column align-items-center">
-  <p class='phrase mt-3 mb-1 text-center'>We rekcle the data</p>
-  <svg width="480" height="320"></svg>
-  <div class='d-flex justify-content-center w-100 goto'>
-    <a href='/tradings' class='btn btn-lg btn-primary mr-2 mr-sm-3 mr-md-4 mr-lg-5'><span>트레이딩<br/>바로가기</a>
-    <a href='/ml/demo' class='btn btn-lg btn-primary ml-2 ml-sm-3 ml-md-4 ml-lg-5'>머신러닝<br/>바로가기</a>
+<div class="content container d-flex flex-column align-items-center">
+  <p class='phrase text-center'>We rekcle the data</p>
+
+  <div class='banner' style='overflow: hidden'>
+    <%= image_tag('pexels-photo-241544.jpeg', class: 'img-fluid') %>
   </div>
+
+  <div class='d-flex justify-content-around w-100 mt-5 goto'>
+    <a href='/tradings' class='btn btn-lg btn-primary'><span>트레이딩<br/>바로가기</a>
+    <a href='/ml/demo' class='btn btn-lg btn-primary'>머신러닝<br/>바로가기</a>
+  </div>
+
 </div>

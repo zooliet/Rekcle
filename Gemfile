@@ -70,7 +70,7 @@ gem 'bootstrap', '~> 4.0.0.beta'
  # gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
 gem 'font-awesome-sass'
 gem "d3-rails"
-gem 'sprockets-es6'
+# gem 'sprockets-es6'
 
 
 ruby "2.4.1" # For Heroku
