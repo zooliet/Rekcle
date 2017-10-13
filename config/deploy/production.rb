@@ -6,8 +6,8 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-# server 'rekcle.com', user: 'deploy', roles: %w{web app db}
-server '192.241.216.217', user: 'deploy', roles: %w{web app db}
+server 'rekcle.com', user: 'deploy', roles: %w{web app db}
+# server '192.241.216.217', user: 'deploy', roles: %w{web app db}
 
 
 
@@ -71,4 +71,4 @@ set :pg_extensions, ['hstore']
 # set :puma_workers, 2
 # set :puma_preload_app, true
 # set :puma_init_active_record, true
-set :nginx_server_name, "192.241.216.217 rekcle.com"
+set :nginx_server_name, "rekcle.com www.rekcle.com"
