@@ -1,6 +1,6 @@
 
 import { observable, computed, action, autorun } from 'mobx';
-// import { getAllSymbols, getWatchList } from 'trading_app/api/profileAPI'
+import { getAllSymbols, getWatchList } from 'trading_app/api/profileAPI'
 
 
 class ProfileStore {
