@@ -1,9 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import './style.css'
+// import 'react-virtualized/styles.css'
+// import 'react-switch-button/dist/react-switch-button.css';
+// import 'react-select/dist/react-select.css';
 
+import './style.css'
+import configureStore from './configureStore'
+import Root from './components/Root'
+
+const store = configureStore()
 ReactDOM.render(
-  <h1 className='text-center mt-5'>주식 자동 매매 데모</h1>,
+  <Root store={store}/>,
   document.getElementById('trading_app')
-);
+)
+
+// ReactDOM.render(
+//   <h1 className='text-center mt-5'>주식 자동 매매 데모</h1>,
+//   document.getElementById('trading_app')
+// );

@@ -1,0 +1,17 @@
+
+div#trading_app {
+  nav.nav.nav-pills.top {
+    a.nav-link.active {
+      background-color: $dark;
+      &:active {
+        background-color: $dark;
+      }
+    }
+  }
+
+  nav.nav.side {
+    .active {
+      font-weight: bold;
+    }    
+  }
+}

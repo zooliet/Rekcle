@@ -66,7 +66,8 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'jquery-rails'
-gem 'bootstrap', '~> 4.0.0.beta'
+# gem 'bootstrap', '~> 4.0.0.beta'
+gem 'bootstrap', '~> 4.0.0.beta2'
  # gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
 gem 'font-awesome-sass'
 gem "d3-rails"
