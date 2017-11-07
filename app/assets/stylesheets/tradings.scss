@@ -12,6 +12,24 @@ div#trading_app {
   nav.nav.side {
     .active {
       font-weight: bold;
-    }    
+    }
+  }
+
+  div.input-group.connection-info {
+    width: 100%;
+    // >= 576px
+    // @include media-breakpoint-down(xs) { }
+
+     // >= 576px
+    @include media-breakpoint-up(sm) { width: 75%; }
+
+    // >= 768px
+    // @include media-breakpoint-up(md) { width: 75%; }
+
+    // >= 992px
+    // @include media-breakpoint-up(lg) { width: 50%; }
+
+    // >= 1200px
+    // @include media-breakpoint-up(xl) { width: 50%; }
   }
 }

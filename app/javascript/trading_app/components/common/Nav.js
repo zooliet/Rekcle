@@ -25,7 +25,7 @@ const Nav = () => {
       <NavLink
         className='nav-link'
         // activeClassName='active'
-        to='/profile'>접속정보
+        to='/account'>계정정보
       </NavLink>
     </nav>
   )

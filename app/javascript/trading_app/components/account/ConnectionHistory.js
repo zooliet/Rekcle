@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AddressSetup = () => {
+const ConnectionHistory = () => {
   return(
     <div className='w-100'>
       <ul>
@@ -10,4 +10,4 @@ const AddressSetup = () => {
   )
 }
 
-export default AddressSetup
+export default ConnectionHistory

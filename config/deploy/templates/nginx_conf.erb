@@ -62,6 +62,10 @@ server {
     error_log <%= shared_path %>/log/nginx.error.log;
   }
 
+  if ($msie) {
+    rewrite ^(.*)$ /unsupported.html break;
+  }
+
   location ^~ /assets/ {
     gzip_static on;
     expires max;

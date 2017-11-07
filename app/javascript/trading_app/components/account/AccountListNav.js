@@ -1,29 +1,29 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const ProfileListNav = () => {
+const AccountListNav = () => {
   return (
     <nav className='nav nav-pills1 flex-column justify-content-left flex-md-column1 align-items-md-center1 side'>
       <NavLink
         className='nav-link mb-md-3 text-dark'
         // activeClassName='active'
-        to='/profile'
-        exact>접속 상태
+        to='/account'
+        exact>기본 정보
       </NavLink>
 
       <NavLink
         className='nav-link mb-md-3 text-dark'
         // activeClassName='active'
-        to='/profile/balance'>잔고 현황
+        to='/account/balance'>잔고 현황
       </NavLink>
 
       <NavLink
         className='nav-link mb-md-3 text-dark'
-        to='/profile/address'>주소 설정
+        to='/account/connections'>접속 이력
       </NavLink>
     </nav>
 
   );
 };
 
-export default ProfileListNav;
+export default AccountListNav;
