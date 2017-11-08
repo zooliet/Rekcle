@@ -16,6 +16,15 @@ class kiwoomStore {
     accountNo: ''
   }
 
+  @observable balanceInfo = {
+    예수금: 0,
+    'D+2추정예수금': 0,
+    유가잔고평가액: 0,
+    예탁자산평가액: 0,
+    추정예탁자산: 0,
+    누적손익율: 0
+  }
+
   constructor(webSocketService) {
     this.wss = webSocketService
 
@@ -25,6 +34,7 @@ class kiwoomStore {
     this.handleAuth = this.handleAuth.bind(this)
 
     this.handleBasicInfo = this.handleBasicInfo.bind(this)
+    this.handleBalanceInfo = this.handleBalanceInfo.bind(this)
 
     this.timerListener = this.timerListener.bind(this)
     this.handleSSE = this.handleSSE.bind(this)
@@ -49,6 +59,7 @@ class kiwoomStore {
     this.wss.socket.on('authentication', this.handleAuth)
 
     this.wss.socket.on('basic-info', this.handleBasicInfo)
+    this.wss.socket.on('balance-info', this.handleBalanceInfo)
 
     this.wss.socket.on('timer', this.timerListener)
     this.wss.socket.on('SSE', this.handleSSE)
@@ -78,7 +89,7 @@ class kiwoomStore {
   }
 
   handleDisconnect() {
-    // console.log('WebSocket disonncted: ', this.wss.socket.id)
+    console.log('WebSocket disonncted')
     this.connectionInfo.connected = 'disconnected'
     this.retryCount = 1
     this.connectionInfo.loggedIn = false
@@ -86,7 +97,7 @@ class kiwoomStore {
   }
 
   handleAuth(json) {
-    console.log('Auth:', json)
+    // console.log('Auth:', json)
     if(json['status'] == 'logged_in')
       this.connectionInfo.loggedIn = true
     else // logged_out
@@ -94,9 +105,20 @@ class kiwoomStore {
   }
 
   handleBasicInfo(json) {
+    // for(let k in json) {
+    //   this.basicInfo[k] = json[k].endsWith(';') ? json[k].slice(0,-1) : json[k]
+    // }
+
     this.basicInfo.userName = json['USER_NAME']
     this.basicInfo.userId = json['USER_ID']
     this.basicInfo.accountNo = json['ACCNO'].endsWith(';') ? json['ACCNO'].slice(0, -1) : json['ACCNO']
+  }
+
+  handleBalanceInfo(json) {
+    for(let key in json) {
+      this.balanceInfo[key] = json[key].endsWith(';') ? parseInt(json[key].slice(0,-1)) : parseInt(json[key])
+      console.log(key, this.balanceInfo[key])
+    }
   }
 
   handleSSE(json) {
@@ -149,7 +171,13 @@ class kiwoomStore {
       (error) => { return {error: error.message}}
     )
     // this.connectionInfo.loggedIn = true
+  }
 
+  @action checkBalance() {
+    return kiwoomAPI.checkBalance(this.connectionInfo.address, this.basicInfo.accountNo).then(
+      (response) => response.data,
+      (error) => { return {error: error.message}}
+    )
   }
 }
 

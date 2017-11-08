@@ -8,8 +8,8 @@ import { observer, inject } from 'mobx-react';
 
 import AccountListNav from './AccountListNav'
 import AccountInfo from './AccountInfo'
-import StockBalance from './StockBalance'
-import ConnectionHistory from './ConnectionHistory'
+import AccountBalance from './AccountBalance'
+// import ConnectionHistory from './ConnectionHistory'
 
 class AccountMain extends React.Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class AccountMain extends React.Component {
           <div className="col-md-9 col-lg-9 mt-5 mt-md-0">
             <Switch>
               <Route exact path='/account' component={AccountInfo} />
-              <Route path='/account/balance' component={StockBalance} />
+              <Route path='/account/balance' component={AccountBalance} />
               {/* <Route path='/account/connections' component={ConnectionHistory} /> */}
               <Route render={() => <h1 className='text-center text-muted'>잘못된 페이지입니다</h1>}  />
             </Switch>

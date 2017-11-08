@@ -24,9 +24,22 @@ const poweroff = (address) => {
   // console.log(url)
   return(
     axios.post(url, data)
-      .then(response => null)
+      .then(response => response.data)
       .catch(handleAxiosError)
   )
 }
 
-export { login, poweroff }
+const checkBalance = (address, accountNo) => {
+  const url =  `http://${address}:5000/check_balance/${accountNo}`
+  // const data = {
+  //   format: 'json'
+  // }
+  // console.log(url)
+  return(
+    axios.get(url)
+      .then(response => response.data)
+      .catch(handleAxiosError)
+  )
+}
+
+export { login, poweroff, checkBalance }
