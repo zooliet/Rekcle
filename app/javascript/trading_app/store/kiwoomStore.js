@@ -1,9 +1,9 @@
 import { observable, computed, action, autorun } from 'mobx';
 import io from 'socket.io-client'
-import { loadState, saveState } from 'trading_app/lib/LocalStorage'
-import * as connAPI from 'trading_app/api/connectionAPI'
+import { loadState, saveState } from 'trading_app/lib/utils/localStorage'
+import * as kiwoomAPI from 'trading_app/api/KiwoomAPI'
 
-class connectionStore {
+class kiwoomStore {
   @observable connectionInfo = {
     connected: 'disconnected',  // 'connected', 'disconnected', 'connecting'
     loggedIn: false,
@@ -129,8 +129,8 @@ class connectionStore {
   }
 
   @action disconnect() {
-    connAPI.poweroff(this.connectionInfo.address)
-    // return connAPI.poweroff(this.connectionInfo.address).then(
+    kiwoomAPI.poweroff(this.connectionInfo.address)
+    // return kiwoomAPI.poweroff(this.connectionInfo.address).then(
     //   (response) => {},
     //   (error) => { return {error: error.message}}
     // )
@@ -144,7 +144,7 @@ class connectionStore {
   }
 
   @action login() {
-    return connAPI.login(this.connectionInfo.address).then(
+    return kiwoomAPI.login(this.connectionInfo.address).then(
       (response) => {this.connectionInfo.loggedIn = response.connected},
       (error) => { return {error: error.message}}
     )
@@ -153,4 +153,4 @@ class connectionStore {
   }
 }
 
-export default connectionStore
+export default kiwoomStore

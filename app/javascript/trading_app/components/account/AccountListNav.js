@@ -17,10 +17,10 @@ const AccountListNav = () => {
         to='/account/balance'>잔고 현황
       </NavLink>
 
-      <NavLink
+      {/* <NavLink
         className='nav-link mb-md-3 text-dark'
         to='/account/connections'>접속 이력
-      </NavLink>
+      </NavLink> */}
     </nav>
 
   );

@@ -12,10 +12,10 @@ import AccountMain from './account/AccountMain'
 
 const Root = observer(({store}) => {
   // console.log(store)
-  const { connectionInfo, connect, disconnect, setAddress } = store.connectionStore
+  const { connectionInfo, connect, disconnect, setAddress } = store.kiwoomStore
 
   const handleLogin = () => {
-    store.connectionStore.login()
+    store.kiwoomStore.login()
       // .then((result) => {
       //   if(result && result.error) console.log(result.error)
       // })

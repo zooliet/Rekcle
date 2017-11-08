@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer, inject } from 'mobx-react';
 
-@inject('connectionStore') @observer
+@inject('kiwoomStore') @observer
 class AccountInfo extends React.Component {
   constructor(props) {
     super(props)
@@ -10,9 +10,7 @@ class AccountInfo extends React.Component {
 
   render() {
     console.log('AccountInfo#render()')
-
-    const { userName, userId, accountNo } = this.props.connectionStore.basicInfo
-    const { disconnect } = this.props.connectionStore
+    const { basicInfo, disconnect } = this.props.kiwoomStore
 
     return (
       <div className='w-100'>
@@ -20,15 +18,15 @@ class AccountInfo extends React.Component {
           <tbody>
             <tr>
               <th scope="row" className='w-25'>사용자명</th>
-              <td className='w-75'>{userName}</td>
+              <td className='w-75'>{basicInfo.userName}</td>
             </tr>
             <tr>
               <th scope="row" className='w-25'>사용자 ID</th>
-              <td className='w-75'>{userId}</td>
+              <td className='w-75'>{basicInfo.userId}</td>
             </tr>
             <tr>
               <th scope="row" className='w-25'>계정번호</th>
-              <td className='w-75'>{accountNo}</td>
+              <td className='w-75'>{basicInfo.accountNo}</td>
             </tr>
             <tr>
               <th scope="row" className='w-25'></th>

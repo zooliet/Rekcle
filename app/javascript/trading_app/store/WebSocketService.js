@@ -1,6 +1,6 @@
 // import openSocket from 'socket.io-client';
 import io from 'socket.io-client'
-import { loadState, saveState } from 'trading_app/lib/LocalStorage'
+import { loadState, saveState } from 'trading_app/lib/utils/localStorage'
 
 class WebSocketService {
   constructor() {
