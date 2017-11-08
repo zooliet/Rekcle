@@ -2,7 +2,7 @@ import { observable, computed, action, autorun } from 'mobx';
 import { fakeCheckUserAPI } from 'trading_app/api/fakeAPI'
 import faker from 'faker'
 
-class fakeStore {
+class FakeStore {
   @observable fakeList = {}
   constructor(webSocketService) {
     this.fakeList = {
@@ -16,4 +16,4 @@ class fakeStore {
   }
 }
 
-export default fakeStore
+export default FakeStore
