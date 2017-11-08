@@ -1,7 +1,7 @@
 import { observable, computed, action, autorun } from 'mobx';
 import io from 'socket.io-client'
 import { loadState, saveState } from 'trading_app/lib/utils/localStorage'
-import * as kiwoomAPI from 'trading_app/api/KiwoomAPI'
+import * as kiwoomAPI from 'trading_app/api/kiwoomAPI'
 
 class kiwoomStore {
   @observable connectionInfo = {
