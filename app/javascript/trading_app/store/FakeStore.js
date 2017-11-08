@@ -1,5 +1,5 @@
 import { observable, computed, action, autorun } from 'mobx';
-import { fakeCheckUserAPI } from 'trading_app/api/fakeAPI'
+// import { fakeCheckUserAPI } from 'trading_app/api/fakeAPI'
 import faker from 'faker'
 
 class FakeStore {

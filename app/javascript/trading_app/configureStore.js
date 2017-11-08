@@ -1,4 +1,4 @@
-import FakeStore from 'trading_app/store/FakeStore'
+// import FakeStore from 'trading_app/store/FakeStore'
 import KiwoomStore from 'trading_app/store/KiwoomStore'
 
 // import StockListStore from './store/StockListStore'
@@ -10,13 +10,13 @@ const configureStore = () => {
 
   const webSocketService = new WebSocketService();
 
-  const fakeStore = new FakeStore(webSocketService)
+  // const fakeStore = new FakeStore(webSocketService)
   const kiwoomStore = new KiwoomStore(webSocketService)
 
   // const stockListStore = new StockListStore()
   // const buyingRuleStore = new BuyingRuleStore()
 
-  return ({ fakeStore, kiwoomStore })
+  return ({ kiwoomStore })
 }
 
 export default configureStore
