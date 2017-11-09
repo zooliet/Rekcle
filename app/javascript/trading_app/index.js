@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// import 'react-virtualized/styles.css'
+import 'react-virtualized/styles.css'
 // import 'react-switch-button/dist/react-switch-button.css';
 // import 'react-select/dist/react-select.css';
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
-import fakePromise from 'trading_app/lib/utils/fakePromise'
-import checkStatus from 'trading_app/lib/utils/checkStatus'
+// import fakePromise from 'trading_app/lib/utils/fakePromise'
+// import checkStatus from 'trading_app/lib/utils/checkStatus'
 import handleAxiosError from 'trading_app/lib/utils/handleAxiosError'
 
 const login = (address) => {

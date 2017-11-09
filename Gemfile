@@ -72,6 +72,6 @@ gem 'bootstrap', '~> 4.0.0.beta2'
 gem 'font-awesome-sass'
 gem "d3-rails"
 # gem 'sprockets-es6'
-
+gem 'smarter_csv'
 
 ruby "2.4.1" # For Heroku

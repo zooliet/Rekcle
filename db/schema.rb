@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171004010509) do
+ActiveRecord::Schema.define(version: 20171109163319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 20171004010509) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "stock_symbols", id: false, force: :cascade do |t|
+    t.string "company"
+    t.string "symbol"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company"], name: "index_stock_symbols_on_company"
+    t.index ["symbol"], name: "index_stock_symbols_on_symbol"
   end
 
 end
