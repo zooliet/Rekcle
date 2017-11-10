@@ -35,3 +35,17 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+
+namespace :deploy do
+  namespace :rake do
+    desc "Invoke rake task"
+    task :invoke do
+      on roles(:all), in: :sequence, wait: 5 do
+        within current_path do
+          execute(:rake, "RAILS_ENV=production #{ENV['task']}")
+        end
+      end
+    end
+  end
+  # 사용법: cap production deploy:rake:invoke task=rekcle:make_symbol_table
+end
