@@ -1,15 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { observer, inject } from 'mobx-react';
 
 @inject('kiwoomStore') @observer
 class AccountInfo extends React.Component {
   constructor(props) {
     super(props)
-    console.log('AccountInfo()')
+    // console.log('AccountInfo()')
   }
 
   render() {
-    console.log('AccountInfo#render()')
+    // console.log('AccountInfo#render()')
     const { basicInfo, disconnect } = this.props.kiwoomStore
 
     return (
