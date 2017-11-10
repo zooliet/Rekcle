@@ -1,4 +1,6 @@
 import { observable, computed, action, autorun } from 'mobx';
+import * as stockAPI from 'trading_app/api/stockAPI'
+
 import { getAllSymbols, getWatchList } from 'trading_app/api/stockAPI'
 
 class StockListStore {
@@ -15,24 +17,57 @@ class StockListStore {
     this.toggleWatching = this.toggleWatching.bind(this)
     this.toggleExcluding = this.toggleExcluding.bind(this)
 
-    getAllSymbols().then((data) => {
-      // this.visibleList = [...data]
-      this.allStockList = data.sort((a, b) => {
-        if (a.company > b.company) return 1
-        else if (a.company < b.company) return -1
-        return 0
-      })
-      this.visibleList = [].concat(...this.allStockList)
-    })
+    this.serverAddress = document.getElementById('trading_app').dataset.env === 'production' ? 'rekcle.com' : 'localhost:3000'
+    console.log(this.serverAddress)
 
-    getWatchList().then((data) => {
-      this.watchList = data.sort((a, b) => {
-        if (a.company > b.company) return 1
-        else if (a.company < b.company) return -1
-        return 0
-      })
-      this.visibleWatchList = [].concat(...this.watchList)
-    })
+    // getAllSymbols().then((data) => {
+    //   // this.visibleList = [...data]
+    //   this.allStockList = data.sort((a, b) => {
+    //     if (a.company > b.company) return 1
+    //     else if (a.company < b.company) return -1
+    //     return 0
+    //   })
+    //   this.visibleList = [].concat(...this.allStockList)
+    // })
+
+    // getWatchList().then((data) => {
+    //   this.watchList = data.sort((a, b) => {
+    //     if (a.company > b.company) return 1
+    //     else if (a.company < b.company) return -1
+    //     return 0
+    //   })
+    //   this.visibleWatchList = [].concat(...this.watchList)
+    // })
+  }
+
+  @action getAllSymbols() {
+    return stockAPI.getAllSymbols(`http://${this.serverAddress}/api/v1/symbols`).then(
+      (response) => {
+        console.log(response)
+        this.allStockList = data.sort((a, b) => {
+          if (a.company > b.company) return 1
+          else if (a.company < b.company) return -1
+          return 0
+        })
+        this.visibleList = [].concat(...this.allStockList)
+      },
+      (error) => { return {error: error.message}}
+    )
+  }
+
+  @action getWatchList(accountNo) {
+    return stockAPI.getWatchList(`http://${this.serverAddress}/api/v1/watchlist/${accountNo}`).then(
+      (response) => {
+        // console.log(response)
+        this.watchList = response.sort((a, b) => {
+          if (a.company > b.company) return 1
+          else if (a.company < b.company) return -1
+          return 0
+        })
+        this.visibleWatchList = [].concat(...this.watchList)
+      },
+      (error) => { return {error: error.message}}
+    )
   }
 
   @action applyFilterBy({type, filter}) {
@@ -91,9 +126,6 @@ class StockListStore {
       })
   }
 
-  @action justTestAction() {
-    console.log('Test Action fired')
-  }
 }
 
 export default StockListStore

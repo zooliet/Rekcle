@@ -1,9 +1,10 @@
-import React from 'react';
+import React from 'react'
+import PropTypes from 'prop-types'
 import { observer, inject } from 'mobx-react';
 
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 
-@inject('stockListStore') @observer
+@inject('stockListStore', 'kiwoomStore') @observer
 class WatchList extends React.Component {
   constructor(props) {
     super(props)
@@ -16,9 +17,15 @@ class WatchList extends React.Component {
     this.renderRow = this.renderRow.bind(this)
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('in componentWillReceiveProps()')
+  componentDidMount() {
+    const { accountNo } = this.props.kiwoomStore.basicInfo
+
+    this.props.stockListStore.getWatchList(accountNo).then(list => {
+      if(list && list.error)  { console.log(list.error) }
+    })
   }
+
+  componentWillReceiveProps(nextProps) {}
 
   componentWillUpdate() {}
 
@@ -83,21 +90,19 @@ class WatchList extends React.Component {
     )
   }
 
-
   render() {
     const { visibleWatchList, applyFilterBy } = this.props.stockListStore
 
     return(
       <div>
-        <div className="form-group mb-4">
+        {/* <div className="form-group mb-4">
           <input type='text'
             className="form-control w-100"
             placeholder='회사명이나 코드를 입력하세요'
             ref={node => this.searchInput = node}
             onInput={() => applyFilterBy({type: 'SEARCH_IN_WATCHLIST', filter: this.searchInput.value})}
           />
-
-        </div>
+        </div> */}
 
         <div style={{height: '70vh'}}>
           <AutoSizer>

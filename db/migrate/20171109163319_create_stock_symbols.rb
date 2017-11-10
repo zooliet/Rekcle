@@ -1,6 +1,6 @@
 class CreateStockSymbols < ActiveRecord::Migration[5.1]
   def change
-    create_table :stock_symbols, {id: false, primary: :symbol} do |t|
+    create_table :stock_symbols do |t|
       t.string :company
       t.string :symbol
 

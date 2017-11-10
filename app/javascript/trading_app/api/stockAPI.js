@@ -258,21 +258,24 @@ const delay = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-const getAllSymbols = () => {
+const getAllSymbols = (url) => {
   // return delay(300).then(() => {
   //   return stockDatabase.symbols.map( symbod => symbod )
   // })
 
-  return axios.get('http://localhost:3000/api/v1/symbols')
+  // return axios.get('http://localhost:3000/api/v1/symbols')
+  return axios.get(url)
     .then( response => response.data )
     .catch(handleAxiosError)
 }
 
-const getWatchList = () => {
+const getWatchList = (url) => {
+  console.log(url)
   // return delay(300).then(() => {
   //   return stockDatabase.symbols.map( symbod => symbod )
   // })
-  return axios.get('http://localhost:3000/api/v1/watchlist')
+  // return axios.get('http://localhost:3000/api/v1/watchlist')
+  return axios.get(url)
     .then( response => response.data )
     .catch(handleAxiosError)
 }

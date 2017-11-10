@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171109163319) do
+ActiveRecord::Schema.define(version: 20171110083808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20171109163319) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "stock_symbols", id: false, force: :cascade do |t|
+  create_table "stock_symbols", force: :cascade do |t|
     t.string "company"
     t.string "symbol"
     t.datetime "created_at", null: false
@@ -30,4 +30,23 @@ ActiveRecord::Schema.define(version: 20171109163319) do
     t.index ["symbol"], name: "index_stock_symbols_on_symbol"
   end
 
+  create_table "user_stocks", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "stock_symbol_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stock_symbol_id"], name: "index_user_stocks_on_stock_symbol_id"
+    t.index ["user_id"], name: "index_user_stocks_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "account_no"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_no"], name: "index_users_on_account_no"
+  end
+
+  add_foreign_key "user_stocks", "stock_symbols"
+  add_foreign_key "user_stocks", "users"
 end

@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'symbols', to: 'symbols#index', as: 'symbols'
-      get 'watchlist', to: 'symbols#watchlist', as: 'watchlist'
+      get 'watchlist(/*account)', to: 'symbols#watchlist', as: 'watchlist'
       # resources :symbols, only: [:index]
     end
   end

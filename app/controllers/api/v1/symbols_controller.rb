@@ -9,9 +9,14 @@ class Api::V1::SymbolsController < ApplicationController
   end
 
   def watchlist
+    # puts("### #{params}")
+    # user = User.find_by(account: params[:account])
+    # user.stocks
+
     results = []
     5.times do
       random_pick = StockSymbol.offset(rand(StockSymbol.count + 1)).first
+
       unless results.map(&:symbol).include?(random_pick.symbol)
         results.push(random_pick)
       end
