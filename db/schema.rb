@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171116014835) do
+ActiveRecord::Schema.define(version: 20171116155805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,15 +39,18 @@ ActiveRecord::Schema.define(version: 20171116014835) do
     t.index ["account_no"], name: "index_users_on_account_no"
   end
 
-  create_table "watchings", force: :cascade do |t|
+  create_table "watchlists", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "stock_symbol_id"
+    t.boolean "manual", default: false
+    t.boolean "kiwoom", default: false
+    t.boolean "rekcle", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["stock_symbol_id"], name: "index_watchings_on_stock_symbol_id"
-    t.index ["user_id"], name: "index_watchings_on_user_id"
+    t.index ["stock_symbol_id"], name: "index_watchlists_on_stock_symbol_id"
+    t.index ["user_id"], name: "index_watchlists_on_user_id"
   end
 
-  add_foreign_key "watchings", "stock_symbols"
-  add_foreign_key "watchings", "users"
+  add_foreign_key "watchlists", "stock_symbols"
+  add_foreign_key "watchlists", "users"
 end
