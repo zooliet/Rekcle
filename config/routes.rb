@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       get 'symbols', to: 'symbols#index', as: 'symbols'
       get 'watchlist(/*account)', to: 'symbols#watchlist', as: 'watchlist'
       # resources :symbols, only: [:index]
+      resources :users, only: [:create, :show]
+      # post 'users', to: 'users#create'
     end
   end
 

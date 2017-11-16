@@ -2,6 +2,7 @@ import { observable, computed, action, autorun } from 'mobx';
 import io from 'socket.io-client'
 import { loadState, saveState } from 'trading_app/lib/utils/localStorage'
 import * as kiwoomAPI from 'trading_app/api/kiwoomAPI'
+import * as stockAPI from 'trading_app/api/stockAPI'
 
 class KiwoomStore {
   @observable connectionInfo = {
@@ -49,6 +50,8 @@ class KiwoomStore {
     this.wss.connect()
 
     this.retryCount = 0
+    this.serverAddress = document.getElementById('trading_app').dataset.env === 'production' ? 'rekcle.com' : 'localhost:3000'
+    // console.log(this.serverAddress)
 
   }
 
@@ -111,12 +114,22 @@ class KiwoomStore {
 
     this.basicInfo.userName = json['USER_NAME']
     this.basicInfo.userId = json['USER_ID']
-    this.basicInfo.accountNo = json['ACCNO'].endsWith(';') ? json['ACCNO'].slice(0, -1) : json['ACCNO']
+    this.basicInfo.accountNo = json['ACCNO'].slice(0, -1).split(';').reverse()[0]
+    // this.basicInfo.accountNo = json['ACCNO'].endsWith(';') ? json['ACCNO'].slice(0, -1) : json['ACCNO']
+
+    const url = `http://${this.serverAddress}/api/v1/users`
+    const { userName, userId, accountNo } = this.basicInfo
+    stockAPI.updateLogin(url, {userName, userId, accountNo})
+      .then(
+        (response) => { console.log(response) },
+        (error) => { return {error: error.message}}
+      )
   }
 
   handleBalanceInfo(json) {
     for(let key in json) {
-      this.balanceInfo[key] = json[key].endsWith(';') ? parseInt(json[key].slice(0,-1)) : parseInt(json[key])
+      this.balanceInfo[key] = parseInt(json[key])
+      // this.balanceInfo[key] = json[key].endsWith(';') ? parseInt(json[key].slice(0,-1)) : parseInt(json[key])
       console.log(key, this.balanceInfo[key])
     }
   }

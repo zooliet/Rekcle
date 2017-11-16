@@ -258,6 +258,21 @@ const delay = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+const updateLogin = (url, options) => {
+  const data = {
+    format: 'json',
+    user: {
+      name: options.userName,
+      login_id: options.userId,
+      account_no: options.accountNo
+    }
+  }
+  // console.log(url)
+  return axios.post(url, data)
+    .then(response => response.data)
+    .catch(handleAxiosError)
+}
+
 const getAllSymbols = (url) => {
   // return delay(300).then(() => {
   //   return stockDatabase.symbols.map( symbod => symbod )
@@ -280,4 +295,4 @@ const getWatchList = (url) => {
     .catch(handleAxiosError)
 }
 
-export { getAllSymbols, getWatchList }
+export { updateLogin, getAllSymbols, getWatchList }

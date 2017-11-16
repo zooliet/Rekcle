@@ -18,7 +18,7 @@ class StockListStore {
     this.toggleExcluding = this.toggleExcluding.bind(this)
 
     this.serverAddress = document.getElementById('trading_app').dataset.env === 'production' ? 'rekcle.com' : 'localhost:3000'
-    console.log(this.serverAddress)
+    // console.log(this.serverAddress)
 
     // getAllSymbols().then((data) => {
     //   // this.visibleList = [...data]

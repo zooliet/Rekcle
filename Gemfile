@@ -73,5 +73,7 @@ gem 'font-awesome-sass'
 gem "d3-rails"
 # gem 'sprockets-es6'
 gem 'smarter_csv'
+gem 'rack-cors', :require => 'rack/cors'
+gem 'active_model_serializers', '~> 0.10.0'
 
 ruby "2.4.1" # For Heroku
