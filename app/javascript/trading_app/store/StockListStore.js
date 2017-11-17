@@ -38,13 +38,17 @@ class StockListStore {
     //   })
     //   this.visibleWatchList = [].concat(...this.watchList)
     // })
+
+    this.getAllSymbols()
+    this.getWatchList('8096696211')
+
+
   }
 
   @action getAllSymbols() {
-    return stockAPI.getAllSymbols(`http://${this.serverAddress}/api/v1/symbols`).then(
+    stockAPI.getAllSymbols(`http://${this.serverAddress}/api/v1/symbols`).then(
       (response) => {
-        console.log(response)
-        this.allStockList = data.sort((a, b) => {
+        this.allStockList = response.sort((a, b) => {
           if (a.company > b.company) return 1
           else if (a.company < b.company) return -1
           return 0

@@ -121,7 +121,7 @@ class KiwoomStore {
     const { userName, userId, accountNo } = this.basicInfo
     stockAPI.updateLogin(url, {userName, userId, accountNo})
       .then(
-        (response) => { console.log(response) },
+        (response) => { console.log('UpdateLogin()', response) },
         (error) => { return {error: error.message}}
       )
   }

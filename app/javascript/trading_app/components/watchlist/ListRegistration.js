@@ -5,38 +5,24 @@ import { observer, inject } from 'mobx-react';
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 
 @inject('stockListStore', 'kiwoomStore') @observer
-class WatchList extends React.Component {
+class ListRegistration extends React.Component {
   constructor(props) {
     super(props)
 
     this.cache = new CellMeasurerCache({
       fixedWidth: true,
-      defaultHeight: 20
+      defaultHeight: 50
     })
 
     this.renderRow = this.renderRow.bind(this)
   }
 
-  componentDidMount() {
-    // const { accountNo } = this.props.kiwoomStore.basicInfo
-    //
-    // this.props.stockListStore.getWatchList(accountNo).then(list => {
-    //   if(list && list.error)  { console.log(list.error) }
-    // })
-  }
-
-  componentWillReceiveProps(nextProps) {}
-
-  componentWillUpdate() {}
-
-  componentWillReact() {}
-
   renderRow = ({index, parent, key, style}) => {
 
-    const { visibleWatchList, excludedList, toggleWatching, toggleExcluding} = this.props.stockListStore
+    const { visibleList, visibleWatchList, excludedList, toggleWatching, toggleExcluding} = this.props.stockListStore
 
-    const company = visibleWatchList[index].company
-    const symbol = visibleWatchList[index].symbol
+    const company = visibleList[index].company
+    const symbol = visibleList[index].symbol
 
     const watched = visibleWatchList.map(stock => stock.symbol).includes(symbol)
     const excluded = excludedList.map(stock => stock.symbol).includes(symbol)
@@ -82,6 +68,7 @@ class WatchList extends React.Component {
                 />
               </small>
             </div>
+
           </div>
           {/* <hr/> */}
 
@@ -90,19 +77,23 @@ class WatchList extends React.Component {
     )
   }
 
+
   render() {
-    const { visibleWatchList, applyFilterBy } = this.props.stockListStore
+
+    // const { data, regen } = this.props.demoStore
+    const { visibleList, applyFilterBy } = this.props.stockListStore
 
     return(
       <div>
-        {/* <div className="form-group mb-4">
+        <div className="form-group mb-4">
           <input type='text'
             className="form-control w-100"
             placeholder='회사명이나 코드를 입력하세요'
             ref={node => this.searchInput = node}
-            onInput={() => applyFilterBy({type: 'SEARCH_IN_WATCHLIST', filter: this.searchInput.value})}
+            onInput={() => applyFilterBy({type: 'SEARCH', filter: this.searchInput.value})}
           />
-        </div> */}
+
+        </div>
 
         <div style={{height: '70vh'}}>
           <AutoSizer>
@@ -112,7 +103,8 @@ class WatchList extends React.Component {
                   ref={node => this.list = node}
                   width={width}
                   height={height}
-                  rowCount={visibleWatchList.length}
+                  // rowCount={data.length}
+                  rowCount={visibleList.length}
                   deferredMeasurementCache={this.cache}
                   rowHeight={this.cache.rowHeight}
                   rowRenderer={this.renderRow}
@@ -127,4 +119,4 @@ class WatchList extends React.Component {
   }
 }
 
-export default WatchList
+export default ListRegistration

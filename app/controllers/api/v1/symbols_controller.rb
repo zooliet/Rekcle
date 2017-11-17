@@ -4,7 +4,7 @@ class Api::V1::SymbolsController < ApplicationController
     # results = stocks.map do |stock|
     #   {company: stock[:회사명], symbol: "%06d" % stock[:종목코드]}
     # end
-    results = StockSymbol.order(:company).select(:company, :symbol)
+    results = StockSymbol.order(:company) # .select(:company, :symbol)
     render json: results
   end
 

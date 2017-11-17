@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom'
 import ConnectAndLogin from 'trading_app/components/ConnectAndLogin'
 import WatchListNav from './WatchListNav'
 import WatchList from './WatchList'
-// import ListRegistration from './ListRegistration'
+import ListRegistration from './ListRegistration'
 // import RecommendedSetting from './RecommendedSetting'
 
 @inject('kiwoomStore') @observer
@@ -21,7 +21,7 @@ class WatchListMain extends React.Component {
       // <div className="jumbotron my-5">
       //   <h1 className='text-center'>종목 관리 화면입니다.</h1>
       // </div>
-      
+
       <div className="my-5">
         <ConnectAndLogin />
         { connectionInfo.connected === 'connected' &&
@@ -34,8 +34,8 @@ class WatchListMain extends React.Component {
             <div className="col-md-9 col-lg-9 mt-5 mt-md-0">
               <Switch>
                 <Route exact path='/watchlist' component={WatchList} />
-                {/* <Route path='/watchlist/recommended' component={RecommendedSetting} />
-                <Route path='/watchlist/registration' component={ListRegistration} /> */}
+                <Route path='/watchlist/registration' component={ListRegistration} />
+                {/* <Route path='/watchlist/recommended' component={RecommendedSetting} /> */}
                 <Route render={() => <h1 className='text-center'>잘못된 페이지입니다</h1>}  />
               </Switch>
             </div>
