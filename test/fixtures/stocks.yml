@@ -3,13 +3,11 @@
 one:
   user: one
   stock_symbol: one
-  manual: false
-  kiwoom: false
-  rekcle: false
+  watching: false
+  shares: 1
 
 two:
   user: two
   stock_symbol: two
-  manual: false
-  kiwoom: false
-  rekcle: false
+  watching: false
+  shares: 1
