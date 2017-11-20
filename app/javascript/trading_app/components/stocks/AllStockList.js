@@ -5,13 +5,13 @@ import { observer, inject } from 'mobx-react';
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 
 @inject('stockListStore', 'kiwoomStore') @observer
-class ListRegistration extends React.Component {
+class AllStockList extends React.Component {
   constructor(props) {
     super(props)
 
     this.cache = new CellMeasurerCache({
       fixedWidth: true,
-      defaultHeight: 50
+      defaultHeight: 20
     })
 
     this.renderRow = this.renderRow.bind(this)
@@ -19,13 +19,14 @@ class ListRegistration extends React.Component {
 
   renderRow = ({index, parent, key, style}) => {
 
-    const { visibleList, visibleWatchList, excludedList, toggleWatching, toggleExcluding} = this.props.stockListStore
+    const { visibleList, watchList, toggleWatching } = this.props.stockListStore
 
     const company = visibleList[index].company
     const symbol = visibleList[index].symbol
 
-    const watched = visibleWatchList.map(stock => stock.symbol).includes(symbol)
-    const excluded = excludedList.map(stock => stock.symbol).includes(symbol)
+    // const watched = watchList.map(stock => stock.symbol).includes(symbol)
+    const watched = watchList.filter(stock => stock.watching).map(stock => stock.symbol).includes(symbol)
+    const owned = watchList.find(stock => (stock.symbol === symbol && stock.shares) > 0)
 
     return(
       <CellMeasurer
@@ -39,6 +40,10 @@ class ListRegistration extends React.Component {
           <div className='mb-2' style={{borderBottom: '1px solid #ddd'}}>
             <span className=''>{`${company} (${symbol})`}</span>
             <div>
+              {
+                owned &&
+                <small>{`${owned.shares}주 보유 · `}</small>
+              }
               <small>
                 <label htmlFor={`watch-${symbol}`}>관심 종목 등록</label>
                 <input
@@ -53,25 +58,8 @@ class ListRegistration extends React.Component {
                   }}
                 />
               </small>
-              <small className='ml-3'>
-                <label htmlFor={`disable-${symbol}`}>자동 추천 금지</label>
-                <input
-                  type='checkbox'
-                  className='ml-1'
-                  id={`disable-${symbol}`}
-                  ref={node => this.notRecommended = node}
-                  checked={excluded}
-                  onChange={(e) => {
-                    toggleExcluding(excluded, {symbol, company})
-                    this.list.forceUpdateGrid()
-                  }}
-                />
-              </small>
             </div>
-
           </div>
-          {/* <hr/> */}
-
         </div>
       </CellMeasurer>
     )
@@ -79,8 +67,6 @@ class ListRegistration extends React.Component {
 
 
   render() {
-
-    // const { data, regen } = this.props.demoStore
     const { visibleList, applyFilterBy } = this.props.stockListStore
 
     return(
@@ -119,4 +105,4 @@ class ListRegistration extends React.Component {
   }
 }
 
-export default ListRegistration
+export default AllStockList

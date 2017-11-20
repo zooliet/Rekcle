@@ -7,6 +7,7 @@ import Nav from 'trading_app/components/common/Nav'
 import TradingMain from './trading/TradingMain'
 import StrategyMain from './strategy/StrategyMain'
 import WatchListMain from './watchlist/WatchListMain'
+import StockListMain from './stocks/StockListMain'
 import AccountMain from './account/AccountMain'
 // import FormDemoMain from './form_demo/FormDemoMain'
 
@@ -20,7 +21,8 @@ const Root = ({store}) => {
           <Switch>
             <Route exact path="/" component={TradingMain} />
             <Route path="/strategy" component={StrategyMain} />
-            <Route path="/watchlist" component={WatchListMain} />
+            {/* <Route path="/watchlist" component={WatchListMain} /> */}
+            <Route path="/stocks" component={StockListMain} />
             <Route path="/account" component={AccountMain} />
             {/* <Route path="/form_demo" component={FormDemoMain} /> */}
             <Route render={() => <p>Not Found</p>} />

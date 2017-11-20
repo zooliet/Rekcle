@@ -11,7 +11,7 @@ class AccountBalance extends React.Component {
   }
 
   componentDidMount() {
-    this.props.kiwoomStore.checkBalance()
+    // this.props.kiwoomStore.checkBalance()
   }
 
 

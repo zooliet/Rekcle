@@ -26,8 +26,9 @@ class KiwoomStore {
     누적손익율: 0
   }
 
-  constructor(webSocketService) {
+  constructor(webSocketService, stockListStore) {
     this.wss = webSocketService
+    this.stockListStore = stockListStore
 
     this.handleConnect = this.handleConnect.bind(this)
     this.handleConnectError = this.handleConnectError.bind(this)
@@ -116,6 +117,10 @@ class KiwoomStore {
     this.basicInfo.userId = json['USER_ID']
     this.basicInfo.accountNo = json['ACCNO'].slice(0, -1).split(';').reverse()[0]
     // this.basicInfo.accountNo = json['ACCNO'].endsWith(';') ? json['ACCNO'].slice(0, -1) : json['ACCNO']
+
+    this.checkBalance()
+    this.stockListStore.getWatchList(this.basicInfo.accountNo)
+    this.stockListStore.getAllSymbols()
 
     const url = `http://${this.serverAddress}/api/v1/users`
     const { userName, userId, accountNo } = this.basicInfo

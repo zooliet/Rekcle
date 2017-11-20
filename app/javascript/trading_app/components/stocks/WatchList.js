@@ -80,11 +80,13 @@ class WatchList extends React.Component {
   }
 
   render() {
-    const { watchList, applyFilterBy } = this.props.stockListStore
+    const { visibleList, watchList, applyFilterBy } = this.props.stockListStore
 
     return(
       <div>
-        <div style={{height: '70vh'}}>
+        {
+          visibleList.length > 0 &&
+          <div style={{height: '70vh'}}>
           <AutoSizer>
             {
               ({width, height}) => (
@@ -101,7 +103,8 @@ class WatchList extends React.Component {
               )
             }
           </AutoSizer>
-        </div>
+          </div>
+        }
       </div>
     );
   }

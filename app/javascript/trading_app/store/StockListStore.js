@@ -5,7 +5,7 @@ import { getAllSymbols, getWatchList } from 'trading_app/api/stockAPI'
 
 class StockListStore {
   @observable visibleList = []
-  @observable visibleWatchList = []
+  @observable watchList = []
   @observable recommendedList = []
   @observable excludedList = []
 
@@ -16,6 +16,7 @@ class StockListStore {
     this.applyFilterBy = this.applyFilterBy.bind(this)
     this.toggleWatching = this.toggleWatching.bind(this)
     this.toggleExcluding = this.toggleExcluding.bind(this)
+    // this.getWatchList = this.getWatchList.bind(this)
 
     this.serverAddress = document.getElementById('trading_app').dataset.env === 'production' ? 'rekcle.com' : 'localhost:3000'
     // console.log(this.serverAddress)
@@ -39,11 +40,11 @@ class StockListStore {
     //   this.visibleWatchList = [].concat(...this.watchList)
     // })
 
-    this.getAllSymbols()
-    this.getWatchList('8096696211')
-
+    // this.getAllSymbols()
+    // this.getWatchList('8096696211')
 
   }
+
 
   @action getAllSymbols() {
     stockAPI.getAllSymbols(`http://${this.serverAddress}/api/v1/symbols`).then(
@@ -62,13 +63,13 @@ class StockListStore {
   @action getWatchList(accountNo) {
     return stockAPI.getWatchList(`http://${this.serverAddress}/api/v1/watchlist/${accountNo}`).then(
       (response) => {
-        // console.log(response)
+        // console.log(response)]
         this.watchList = response.sort((a, b) => {
           if (a.company > b.company) return 1
           else if (a.company < b.company) return -1
           return 0
         })
-        this.visibleWatchList = [].concat(...this.watchList)
+        // this.visibleWatchList = [].concat(...this.watchList)
       },
       (error) => { return {error: error.message}}
     )
@@ -95,7 +96,7 @@ class StockListStore {
           stock.company.toLowerCase().includes(filter.toLocaleLowerCase()) ||
           stock.symbol.includes(filter)
         ))
-        this.visibleWatchList = [].concat(...filtered)
+        // this.visibleWatchList = [].concat(...filtered)
         break
 
       default:
@@ -104,18 +105,33 @@ class StockListStore {
   }
 
   @action toggleWatching(watched, {symbol, company}) {
-    if(watched) {
-      this.watchList = this.watchList.filter(stock => stock.symbol !== symbol)
-      this.visibleWatchList = [].concat(...this.watchList)
+    if(watched) {  // 삭제
+      // this.watchList.find(stock => stock.symbol === symbol).watching = false
+      const stock = this.watchList.find(stock => stock.symbol === symbol)
+      if(stock.shares > 0)
+        stock.watching = false
+      else
+        this.watchList = this.watchList.filter(stock => stock.symbol !== symbol)
+      // this.watchList = [].concat(...this.watchList)
     }
-    else
-      this.watchList.push({symbol, company})
+    else {
+      const stock = this.watchList.find(stock => stock.symbol === symbol)
+      if(stock) {
+        stock.watching = true
+      }
+      else {
+        this.watchList.push({symbol, company, watching: true})
+      }
+
       this.watchList = this.watchList.sort((a, b) => {
         if (a.company > b.company) return 1
         else if (a.company < b.company) return -1
         return 0
       })
-      this.visibleWatchList = [].concat(...this.watchList)
+      // this.watchList = [].concat(...this.watchList)
+
+    //   // this.visibleWatchList = [].concat(...this.watchList)
+    }
   }
 
   @action toggleExcluding(excluded, {symbol, company}) {

@@ -2,29 +2,35 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom';
 
-const WatchListNav = () => {
+const StockListNav = () => {
   return (
     <nav className='nav nav-pills1 flex-column justify-content-left flex-md-column1 align-items-md-center1 side'>
       <NavLink
         className='nav-link mb-md-3 text-dark'
+        to='/stocks'
+        exact>전체 종목        
+      </NavLink>
+
+      <NavLink
+        className='nav-link mb-md-3 text-dark'
+        to='/stocks/me'>보유 종목
+      </NavLink>
+
+      <NavLink
+        className='nav-link mb-md-3 text-dark'
         // activeClassName='active'
-        to='/watchlist'
+        to='/stocks/watchlist'
         exact>관심 종목
       </NavLink>
 
       <NavLink
         className='nav-link mb-md-3 text-dark'
-        to='/watchlist/registration'>종목 추가
-      </NavLink>
-
-      <NavLink
-        className='nav-link mb-md-3 text-dark'
         // activeClassName='active'
-        to='/watchlist/recommended'>추천 종목
+        to='/stocks/recommended'>추천 종목
       </NavLink>
     </nav>
 
   );
 };
 
-export default WatchListNav;
+export default StockListNav;

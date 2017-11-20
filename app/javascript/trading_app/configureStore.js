@@ -10,8 +10,8 @@ const configureStore = () => {
   const webSocketService = new WebSocketService();
 
   // const fakeStore = new FakeStore(webSocketService)
-  const kiwoomStore = new KiwoomStore(webSocketService)
   const stockListStore = new StockListStore()
+  const kiwoomStore = new KiwoomStore(webSocketService, stockListStore)
   // const buyingRuleStore = new BuyingRuleStore()
 
   return ({ kiwoomStore, stockListStore })

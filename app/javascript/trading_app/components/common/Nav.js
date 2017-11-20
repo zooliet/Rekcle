@@ -16,10 +16,16 @@ const Nav = () => {
         to='/strategy'>매매전략
       </NavLink>
 
-      <NavLink
+      {/* <NavLink
         className='nav-link'
         // activeClassName='active'
         to='/watchlist'>종목관리
+      </NavLink> */}
+
+      <NavLink
+        className='nav-link'
+        // activeClassName='active'
+        to='/stocks'>종목관리
       </NavLink>
 
       <NavLink

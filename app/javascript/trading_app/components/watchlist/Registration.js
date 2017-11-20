@@ -5,7 +5,7 @@ import { observer, inject } from 'mobx-react';
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 
 @inject('stockListStore', 'kiwoomStore') @observer
-class WatchList extends React.Component {
+class Registration extends React.Component {
   constructor(props) {
     super(props)
 
@@ -16,20 +16,6 @@ class WatchList extends React.Component {
 
     this.renderRow = this.renderRow.bind(this)
   }
-
-  componentDidMount() {
-    // const { accountNo } = this.props.kiwoomStore.basicInfo
-    //
-    // this.props.stockListStore.getWatchList(accountNo).then(list => {
-    //   if(list && list.error)  { console.log(list.error) }
-    // })
-  }
-
-  componentWillReceiveProps(nextProps) {}
-
-  componentWillUpdate() {}
-
-  componentWillReact() {}
 
   renderRow = ({index, parent, key, style}) => {
 
@@ -79,11 +65,22 @@ class WatchList extends React.Component {
     )
   }
 
+
   render() {
-    const { watchList, applyFilterBy } = this.props.stockListStore
+    const { visibleList, applyFilterBy } = this.props.stockListStore
 
     return(
       <div>
+        <div className="form-group mb-4">
+          <input type='text'
+            className="form-control w-100"
+            placeholder='회사명이나 코드를 입력하세요'
+            ref={node => this.searchInput = node}
+            onInput={() => applyFilterBy({type: 'SEARCH', filter: this.searchInput.value})}
+          />
+
+        </div>
+
         <div style={{height: '70vh'}}>
           <AutoSizer>
             {
@@ -92,7 +89,8 @@ class WatchList extends React.Component {
                   ref={node => this.list = node}
                   width={width}
                   height={height}
-                  rowCount={watchList.length}
+                  // rowCount={data.length}
+                  rowCount={visibleList.length}
                   deferredMeasurementCache={this.cache}
                   rowHeight={this.cache.rowHeight}
                   rowRenderer={this.renderRow}
@@ -107,4 +105,4 @@ class WatchList extends React.Component {
   }
 }
 
-export default WatchList
+export default Registration

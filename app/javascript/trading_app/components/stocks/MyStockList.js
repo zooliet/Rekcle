@@ -5,13 +5,13 @@ import { observer, inject } from 'mobx-react';
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 
 @inject('stockListStore', 'kiwoomStore') @observer
-class WatchList extends React.Component {
+class MyStockList extends React.Component {
   constructor(props) {
     super(props)
 
     this.cache = new CellMeasurerCache({
       fixedWidth: true,
-      defaultHeight: 20
+      defaultHeight: 50
     })
 
     this.renderRow = this.renderRow.bind(this)
@@ -56,22 +56,8 @@ class WatchList extends React.Component {
             <div>
               {
                 owned &&
-                <small>{`${owned.shares}주 보유 · `}</small>
+                <small>{`${owned.shares}주 보유`}</small>
               }
-              <small>
-                <label htmlFor={`watch-${symbol}`}>관심 종목 등록</label>
-                <input
-                  type='checkbox'
-                  className='ml-1'
-                  id={`watch-${symbol}`}
-                  ref={node => this.watched = node}
-                  checked={watched}
-                  onChange={(e) => {
-                    toggleWatching(watched, {symbol, company})
-                    this.list.forceUpdateGrid()
-                  }}
-                />
-              </small>
             </div>
           </div>
         </div>
@@ -80,31 +66,35 @@ class WatchList extends React.Component {
   }
 
   render() {
-    const { watchList, applyFilterBy } = this.props.stockListStore
+    const { visibleList, watchList, applyFilterBy } = this.props.stockListStore
 
     return(
       <div>
-        <div style={{height: '70vh'}}>
-          <AutoSizer>
-            {
-              ({width, height}) => (
-                <List
-                  ref={node => this.list = node}
-                  width={width}
-                  height={height}
-                  rowCount={watchList.length}
-                  deferredMeasurementCache={this.cache}
-                  rowHeight={this.cache.rowHeight}
-                  rowRenderer={this.renderRow}
-                  style={{outline: 'none'}}
-                />
-              )
-            }
-          </AutoSizer>
-        </div>
+        {
+          visibleList.length > 0 &&
+
+          <div style={{height: '70vh'}}>
+            <AutoSizer>
+              {
+                ({width, height}) => (
+                  <List
+                    ref={node => this.list = node}
+                    width={width}
+                    height={height}
+                    rowCount={watchList.length}
+                    deferredMeasurementCache={this.cache}
+                    rowHeight={this.cache.rowHeight}
+                    rowRenderer={this.renderRow}
+                    style={{outline: 'none'}}
+                  />
+                )
+              }
+            </AutoSizer>
+          </div>
+        }
       </div>
     );
   }
 }
 
-export default WatchList
+export default MyStockList
