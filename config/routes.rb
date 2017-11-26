@@ -5,10 +5,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      get 'symbols', to: 'symbols#index', as: 'symbols'
+      get 'symbols(/*account)', to: 'symbols#index', as: 'symbols'
       # resources :symbols, only: [:index]
 
       get 'watchlist(/*account)', to: 'watchlist#index', as: 'watchlist'
+      post 'watchlist(/*account)', to: 'watchlist#create'
+      delete 'watchlist(/*account)', to: 'watchlist#destroy'
 
       resources :users, only: [:create, :show]
       # post 'users', to: 'users#create'

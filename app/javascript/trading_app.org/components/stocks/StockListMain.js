@@ -4,13 +4,13 @@ import { observer, inject } from 'mobx-react';
 import { Route, Switch } from 'react-router-dom'
 
 import ConnectAndLogin from 'trading_app/components/ConnectAndLogin'
-import WatchListNav from './WatchListNav'
+import StockListNav from './StockListNav'
+import AllList from './AllList'
 import WatchList from './WatchList'
-import Registration from './Registration'
 import RecommendedList from './RecommendedList'
 
 @inject('kiwoomStore') @observer
-class WatchListMain extends React.Component {
+class StockListMain extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -28,14 +28,14 @@ class WatchListMain extends React.Component {
           connectionInfo.loggedIn &&
           <div className="row">
             <div className="col-md-3 col-lg-3">
-              <WatchListNav />
+              <StockListNav />
             </div>
 
             <div className="col-md-9 col-lg-9 mt-5 mt-md-0">
               <Switch>
-                <Route exact path='/watchlist' component={WatchList} />
-                <Route path='/watchlist/registration' component={Registration} />
-                <Route path='/watchlist/recommended' component={RecommendedList} />
+                <Route exact path='/stocks' component={AllList} />
+                <Route path='/stocks/watchlist' component={WatchList} />
+                <Route path='/stocks/recommended' component={RecommendedList} />
                 <Route render={() => <h1 className=''>잘못된 페이지입니다</h1>}  />
               </Switch>
             </div>
@@ -46,4 +46,4 @@ class WatchListMain extends React.Component {
   }
 }
 
-export default WatchListMain
+export default StockListMain

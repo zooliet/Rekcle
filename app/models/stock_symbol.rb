@@ -1,4 +1,4 @@
 class StockSymbol < ApplicationRecord
-  # has_many :watchlists
-  # has_many :users, through: :watchlists
+  has_many :watchings
+  has_many :users, through: :watchings
 end

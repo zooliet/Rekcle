@@ -1,40 +1,8 @@
 import { observable, computed, action, autorun } from 'mobx';
 import io from 'socket.io-client'
 import { loadState, saveState } from 'trading_app/lib/utils/localStorage'
-
-import WebSocketService from 'trading_app/store/WebSocketService'
-import StockListService from 'trading_app/store/StockListService'
-
-
 import * as kiwoomAPI from 'trading_app/api/kiwoomAPI'
 import * as stockAPI from 'trading_app/api/stockAPI'
-
-
-// class Bar {
-//   hello(foo) {
-//     console.log('Bar#hello()')
-//     console.log(foo.greeting)
-//   }
-// }
-//
-// class Foo {
-//   @observable greeting = "Foo"
-//   constructor() {
-//     console.log('initializing foo');
-//     this.bar = new Bar()
-//   }
-//
-//   hello() {
-//     console.log('Foo#hello()')
-//     this.bar.hello(this)
-//   }
-// }
-//
-// const foo = new Foo()
-// foo.bar.hello(foo)
-//
-// const bar = new Bar()
-// bar.hello(foo)
 
 class KiwoomStore {
   @observable connectionInfo = {
@@ -58,36 +26,9 @@ class KiwoomStore {
     누적손익율: 0
   }
 
-  @observable accountNo = ""
-
-  @observable symbolList = []
-  @observable searchTerm = ""
-
-  @computed get filteredList() {
-    const searchFilter = new RegExp(this.searchTerm, 'i')
-    return this.symbolList.filter(stock => !this.searchTerm || searchFilter.test(stock.company) || searchFilter.test(stock.symbol))
-  }
-
-  @computed get watchList() {
-    return this.symbolList.filter(stock => stock.watching)
-  }
-
-  // @observable watchList = []
-  // @computed get myStockList() {
-  //   return this.watchList.filter(stock => stock.shares > 0)
-  // }
-  @observable recommendedList = []
-  @observable portfolio = []
-
-
-
-
-
-
-
-  constructor() {
-
-    // this.stockListStore = stockListStore
+  constructor(webSocketService, stockListStore) {
+    this.wss = webSocketService
+    this.stockListStore = stockListStore
 
     this.handleConnect = this.handleConnect.bind(this)
     this.handleConnectError = this.handleConnectError.bind(this)
@@ -107,15 +48,12 @@ class KiwoomStore {
     this.setAddress = this.setAddress.bind(this)
     this.login = this.login.bind(this)
 
+    this.addListenerToEvent()
+    this.wss.connect()
+
     this.retryCount = 0
     this.serverAddress = document.getElementById('trading_app').dataset.env === 'production' ? 'rekcle.com' : 'localhost:3000'
     // console.log(this.serverAddress)
-
-    this.wss = new WebSocketService()
-    this.sls = new StockListService(this)
-
-    this.addListenerToEvent()
-    this.wss.connect()
 
   }
 
@@ -183,30 +121,17 @@ class KiwoomStore {
     // this.basicInfo.accountNo = json['ACCNO'].endsWith(';') ? json['ACCNO'].slice(0, -1) : json['ACCNO']
 
     this.checkBalance()
-    // this.sls.getAllSymbols(this.serverAddress, this.basicInfo.accountNo).then(
-    this.sls.getAllSymbols().then(
-      (list) => {
-        if (!list.error) {
-          this.symbolList = list
-        }
-      }
-    )
-
-    // this.sls.getWatchList(this.serverAddress, this.basicInfo.accountNo).then(
-    // this.sls.getWatchList().then(
-    //   (list) => {
-    //     if (!list.error) {
-    //       this.watchList = list
-    //     }
-    //   }
-    // )
+    this.stockListStore.accountNo = this.basicInfo.accountNo
+    this.stockListStore.getWatchList(this.basicInfo.accountNo)
+    // this.stockListStore.getAllSymbols()
 
     const url = `http://${this.serverAddress}/api/v1/users`
     const { userName, userId, accountNo } = this.basicInfo
-    stockAPI.updateLogin(url, {userName, userId, accountNo}).then(
-      (response) => { console.log('UpdateLogin()', response) },
-      (error) => { return {error: error.message}}
-    )
+    stockAPI.updateLogin(url, {userName, userId, accountNo})
+      .then(
+        (response) => { console.log('UpdateLogin()', response) },
+        (error) => { return {error: error.message}}
+      )
   }
 
   handleBalanceInfo(json) {
@@ -225,9 +150,10 @@ class KiwoomStore {
       stock['shares'] = parseInt(json['보유수량'])
       stock['averageBuyingPrice'] = Math.round(parseFloat(json['평균단가']))
       stock['currentPrice'] = parseInt(json['현재가'])
-      // this.sls.addPortfolio(stock)
+      this.stockListStore.addPortfolio(stock)
     }
   }
+
 
   handleSSE(json) {
     console.log('SSE: ', json)

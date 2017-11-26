@@ -5,7 +5,7 @@ import { observer, inject } from 'mobx-react';
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 import StockList from './StockList'
 
-@inject('kiwoomStore') @observer
+@inject('stockListStore', 'kiwoomStore') @observer
 class WatchList extends React.Component {
   constructor(props) {
     super(props)
@@ -14,7 +14,7 @@ class WatchList extends React.Component {
   componentDidMount() {
     // const { accountNo } = this.props.kiwoomStore.basicInfo
     //
-    // this.props.kiwoomStore.getWatchList(accountNo).then(list => {
+    // this.props.stockListStore.getWatchList(accountNo).then(list => {
     //   if(list && list.error)  { console.log(list.error) }
     // })
   }
@@ -26,7 +26,7 @@ class WatchList extends React.Component {
   componentWillReact() {}
 
   render() {
-    const { watchList, toggleWatching } = this.props.kiwoomStore
+    const { watchList, toggleWatching } = this.props.stockListStore
 
     return(
       <StockList

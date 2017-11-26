@@ -4,13 +4,13 @@ import { observer, inject } from 'mobx-react';
 import { Route, Switch } from 'react-router-dom'
 
 import ConnectAndLogin from 'trading_app/components/ConnectAndLogin'
-import StockListNav from './StockListNav'
-import AllStocks from './AllStocks'
-import WatchList from './WatchList'
-import Recommended from './Recommended'
+import AccountListNav from './AccountListNav'
+import AccountInfo from './AccountInfo'
+import AccountBalance from './AccountBalance'
+// import ConnectionHistory from './ConnectionHistory'
 
 @inject('kiwoomStore') @observer
-class StockListMain extends React.Component {
+class AccountMain extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -19,7 +19,7 @@ class StockListMain extends React.Component {
     const { connectionInfo } = this.props.kiwoomStore
     return (
       // <div className="jumbotron my-5">
-      //   <h1 className='text-center'>종목 관리 화면입니다.</h1>
+      //   <h1 className='text-center'>접속 설정 화면입니다.</h1>
       // </div>
 
       <div className="my-5">
@@ -28,15 +28,15 @@ class StockListMain extends React.Component {
           connectionInfo.loggedIn &&
           <div className="row">
             <div className="col-md-3 col-lg-3">
-              <StockListNav />
+              <AccountListNav />
             </div>
 
             <div className="col-md-9 col-lg-9 mt-5 mt-md-0">
               <Switch>
-                <Route exact path='/stocks' component={AllStocks} />
-                <Route path='/stocks/watchlist' component={WatchList} />
-                <Route path='/stocks/recommended' component={Recommended} />
-                <Route render={() => <h1 className=''>잘못된 페이지입니다</h1>}  />
+                <Route exact path='/account' component={AccountInfo} />
+                <Route path='/account/balance' component={AccountBalance} />
+                {/* <Route path='/account/connections' component={ConnectionHistory} /> */}
+                <Route render={() => <h1 className='text-center text-muted'>잘못된 페이지입니다</h1>}  />
               </Switch>
             </div>
           </div>
@@ -46,4 +46,4 @@ class StockListMain extends React.Component {
   }
 }
 
-export default StockListMain
+export default AccountMain

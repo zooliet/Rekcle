@@ -4,8 +4,7 @@ import { observer, inject } from 'mobx-react';
 
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 
-@inject('stockListStore', 'kiwoomStore') @observer
-class WatchList extends React.Component {
+class StockList extends React.Component {
   constructor(props) {
     super(props)
 
@@ -13,34 +12,15 @@ class WatchList extends React.Component {
       fixedWidth: true,
       defaultHeight: 20
     })
-
-    this.renderRow = this.renderRow.bind(this)
   }
-
-  componentDidMount() {
-    // const { accountNo } = this.props.kiwoomStore.basicInfo
-    //
-    // this.props.stockListStore.getWatchList(accountNo).then(list => {
-    //   if(list && list.error)  { console.log(list.error) }
-    // })
-  }
-
-  componentWillReceiveProps(nextProps) {}
-
-  componentWillUpdate() {}
-
-  componentWillReact() {}
 
   renderRow = ({index, parent, key, style}) => {
+    const { stockList, watchList, toggleWatching } = this.props
 
-    const { visibleList, watchList, toggleWatching } = this.props.stockListStore
-
-    const company = visibleList[index].company
-    const symbol = visibleList[index].symbol
-
-    // const watched = watchList.map(stock => stock.symbol).includes(symbol)
-    const watched = watchList.filter(stock => stock.watching).map(stock => stock.symbol).includes(symbol)
-    const owned = watchList.find(stock => (stock.symbol === symbol && stock.shares) > 0)
+    const { company, symbol } = stockList[index]
+    // const watched = watchList.filter(stock => stock.watching).map(stock => stock.symbol).includes(symbol)
+    const watched = watchList.map(stock => stock.symbol).includes(symbol)
+    const owned = null // watchList.find(stock => (stock.symbol === symbol && stock.shares) > 0)
 
     return(
       <CellMeasurer
@@ -59,7 +39,7 @@ class WatchList extends React.Component {
                 <small>{`${owned.shares}주 보유 · `}</small>
               }
               <small>
-                <label htmlFor={`watch-${symbol}`}>관심 종목 등록</label>
+                <label htmlFor={`watch-${symbol}`}>관심 종목</label>
                 <input
                   type='checkbox'
                   className='ml-1'
@@ -67,8 +47,10 @@ class WatchList extends React.Component {
                   ref={node => this.watched = node}
                   checked={watched}
                   onChange={(e) => {
-                    toggleWatching(watched, {symbol, company})
-                    this.list.forceUpdateGrid()
+                    e.preventDefault()
+                    toggleWatching(watched, {symbol, company}).then(() => {
+                      this.list.forceUpdateGrid()
+                    })
                   }}
                 />
               </small>
@@ -80,11 +62,12 @@ class WatchList extends React.Component {
   }
 
   render() {
-    const { watchList, applyFilterBy } = this.props.stockListStore
+    const { stockList } = this.props
 
     return(
-      <div>
-        <div style={{height: '70vh'}}>
+      <div style={{height: '100vh'}}>
+        {
+          stockList.length > 0 &&
           <AutoSizer>
             {
               ({width, height}) => (
@@ -92,19 +75,31 @@ class WatchList extends React.Component {
                   ref={node => this.list = node}
                   width={width}
                   height={height}
-                  rowCount={watchList.length}
+                  // rowCount={data.length}
+                  rowCount={stockList.length}
                   deferredMeasurementCache={this.cache}
                   rowHeight={this.cache.rowHeight}
-                  rowRenderer={this.renderRow}
+                  rowRenderer={this.renderRow.bind(this)}
                   style={{outline: 'none'}}
                 />
               )
             }
           </AutoSizer>
-        </div>
+        }
+        {
+          stockList.length === 0 &&
+          <table className="table">
+            <tbody>
+              <tr>
+                <td className='text-muted'><i>등록된 종목이 없습니다</i></td>
+              </tr>
+            </tbody>
+          </table>
+        }
+
       </div>
     );
   }
 }
 
-export default WatchList
+export default StockList
