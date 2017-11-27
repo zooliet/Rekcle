@@ -11,7 +11,7 @@ class AccountInfo extends React.Component {
 
   render() {
     // console.log('AccountInfo#render()')
-    const { basicInfo, disconnect } = this.props.kiwoomStore
+    const { basicInfo, cls } = this.props.kiwoomStore
 
     return (
       <div className='w-100'>
@@ -32,7 +32,7 @@ class AccountInfo extends React.Component {
             <tr>
               <th scope="row" className='w-25'></th>
               <td className='w-75'>
-                <button className='btn btn-success' onClick={() => disconnect()}>
+                <button className='btn btn-success' onClick={() => cls.disconnect()}>
                   접속 끊기
                 </button>
               </td>

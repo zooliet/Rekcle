@@ -257,16 +257,16 @@ const delay = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-const updateLogin = (url, options) => {
+const updateLogin = (url, {userName, userId, accountNo}) => {
+  // console.log(url)
   const data = {
     format: 'json',
     user: {
-      name: options.userName,
-      login_id: options.userId,
-      account_no: options.accountNo
+      name: userName,
+      login_id: userId,
+      account_no: accountNo
     }
   }
-  // console.log(url)
   return axios.post(url, data)
     .then(response => response.data)
     .catch(handleAxiosError)
@@ -276,8 +276,6 @@ const getAllSymbols = (url) => {
   // return delay(300).then(() => {
   //   return stockDatabase.map( symbod => symbod )
   // })
-
-  // return axios.get('http://localhost:3000/api/v1/symbols')
   return axios.get(url)
     .then( response => response.data )
     .catch(handleAxiosError)
@@ -285,16 +283,13 @@ const getAllSymbols = (url) => {
 
 const getWatchList = (url) => {
   // console.log(url)
-  // return delay(300).then(() => {
-  //   return stockDatabase.map( symbod => symbod )
-  // })
-  // return axios.get('http://localhost:3000/api/v1/watchlist')
   return axios.get(url)
     .then( response => response.data )
     .catch(handleAxiosError)
 }
 
 const addWatchList = (url, symbol, company) => {
+  // console.log(url)
   const data = {
     format: 'json',
     stock: {
@@ -302,54 +297,39 @@ const addWatchList = (url, symbol, company) => {
       company: company,
     }
   }
-  // console.log(url)
   return axios.post(url, data)
     .then(response => response.data)
     .catch(handleAxiosError)
 }
 
 const removeWatchList = (url, symbol, company) => {
-  const data = {
-    format: 'json',
-    stock: {
-      symbol: symbol,
-      company: company,
-    }
-  }
-  console.log(url, data)
-  return axios.delete(url, {
+  // console.log(url)
+  const options = {
     method: 'DELETE',
     params: {
       format: 'json',
       symbol: symbol,
       company: company,
-      // stock: {
-      //   symbol: symbol,
-      //   company: company,
-      // }      
-    },
-    // paramsSerializer: function(params) {
-    //   return Qs.stringify(params, {arrayFormat: 'brackets'})
-    // },
-  })
-    .then(response => response.data)
-    .catch(handleAxiosError)
-}
-
-
-const toggleWatching = (url, symbol, company) => {
-  const data = {
-    format: 'json',
-    stock: {
-      symbol: symbol,
-      company: company,
     }
   }
-  // console.log(url)
-  return axios.post(url, data)
+  return axios.delete(url, options)
     .then(response => response.data)
     .catch(handleAxiosError)
-
 }
 
-export { updateLogin, getAllSymbols, getWatchList, toggleWatching, addWatchList, removeWatchList }
+// const toggleWatching = (url, symbol, company) => {
+//   const data = {
+//     format: 'json',
+//     stock: {
+//       symbol: symbol,
+//       company: company,
+//     }
+//   }
+//   // console.log(url)
+//   return axios.post(url, data)
+//     .then(response => response.data)
+//     .catch(handleAxiosError)
+//
+// }
+
+export { updateLogin, getAllSymbols, getWatchList, addWatchList, removeWatchList }

@@ -3,12 +3,11 @@ import axios from 'axios'
 // import checkStatus from 'trading_app/lib/utils/checkStatus'
 import handleAxiosError from 'trading_app/lib/utils/handleAxiosError'
 
-const login = (address) => {
-  const url =  `http://${address}:5000/login`
+const login = (url) => {
+  // console.log(url)
   const data = {
     format: 'json'
   }
-  // console.log(url)
   return(
     axios.post(url, data)
       .then(response => response.data)
@@ -16,12 +15,11 @@ const login = (address) => {
   )
 }
 
-const poweroff = (address) => {
-  const url =  `http://${address}:5000/poweroff`
+const poweroff = (url) => {
+  // console.log(url)
   const data = {
     format: 'json'
   }
-  // console.log(url)
   return(
     axios.post(url, data)
       .then(response => response.data)
@@ -29,11 +27,7 @@ const poweroff = (address) => {
   )
 }
 
-const checkBalance = (address, accountNo) => {
-  const url =  `http://${address}:5000/check_balance/${accountNo}`
-  // const data = {
-  //   format: 'json'
-  // }
+const checkBalance = (url) => {
   // console.log(url)
   return(
     axios.get(url)
@@ -42,8 +36,7 @@ const checkBalance = (address, accountNo) => {
   )
 }
 
-const getAssets = (address, accountNo) => {
-  const url =  `http://${address}:5000/assets/${accountNo}`
+const getAssets = (url) => {
   return(
     axios.get(url)
       .then(response => response.data)

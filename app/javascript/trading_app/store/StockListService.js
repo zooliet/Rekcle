@@ -1,5 +1,6 @@
 // import { observable, computed, action, autorun } from 'mobx';
 import * as stockAPI from 'trading_app/api/stockAPI'
+import * as kiwoomAPI from 'trading_app/api/kiwoomAPI'
 
 class StockListService {
   constructor(kiwoomStore) {
@@ -7,14 +8,15 @@ class StockListService {
 
     this.toggleWatching = this.toggleWatching.bind(this)
     this.addAsset = this.addAsset.bind(this)
+
+    this.handleAssetsInfo = this.handleAssetsInfo.bind(this)
   }
 
-  // getAllSymbols(serverAddress, accountNo) {
   getAllSymbols() {
     const url = `http://${this.kiwoomStore.serverAddress}/api/v1/symbols/${this.kiwoomStore.basicInfo.accountNo}`
     return stockAPI.getAllSymbols(url).then(
       (response) => {
-        return response.sort((a, b) => {
+        this.kiwoomStore.symbolList = response.sort((a, b) => {
           if (a.company > b.company) return 1
           else if (a.company < b.company) return -1
           return 0
@@ -24,12 +26,19 @@ class StockListService {
     )
   }
 
+  getAssets() {
+    const url =  `http://${this.kiwoomStore.connectionInfo.address}:5000/assets/${this.kiwoomStore.basicInfo.accountNo}`
+    return kiwoomAPI.getAssets(url).then(
+      (response) => response.data,
+      (error) => { return {error: error.message}}
+    )
+  }
+
   getWatchList() {
     const url = `http://${this.kiwoomStore.serverAddress}/api/v1/watchlist/${this.kiwoomStore.basicInfo.accountNo}`
     return stockAPI.getWatchList(url).then(
       (response) => {
-        // console.log(response)]
-        return response.sort((a, b) => {
+        this.kiwoomStore.watchList = response.sort((a, b) => {
           if (a.company > b.company) return 1
           else if (a.company < b.company) return -1
           return 0
@@ -42,10 +51,10 @@ class StockListService {
   toggleWatching({watched, symbol, company}) {
     const stock = this.kiwoomStore.symbolList.find(stock => stock.symbol === symbol)
     const url = `http://${this.kiwoomStore.serverAddress}/api/v1/watchlist/${this.kiwoomStore.basicInfo.accountNo}`
+
     if(watched) { // 현재 상태: watching => 중지
       return stockAPI.removeWatchList(url, symbol, company).then(
         (response) => {
-          const stock = this.kiwoomStore.symbolList.find(stock => stock.symbol === symbol)
           stock.watching = false
           // kiwoomStore.symbolList = kiwoomStore.symbolList.filter(stock => stock.symbol !== symbol)
           // return
@@ -56,7 +65,6 @@ class StockListService {
     else { // 현재 not watched => add to watchlist
       return stockAPI.addWatchList(url, symbol, company).then(
         (response) => {
-          const stock = this.kiwoomStore.symbolList.find(stock => stock.symbol === symbol)
           stock.watching = true
 
           // kiwoomStore.watchList.push({symbol, company, watching: true})
@@ -79,6 +87,18 @@ class StockListService {
       this.kiwoomStore.assets = this.kiwoomStore.assets.slice(0, index).concat(asset).concat(this.kiwoomStore.assets.slice(index+1))
     } else {
       this.kiwoomStore.assets = [...this.kiwoomStore.assets, asset]
+    }
+  }
+
+  handleAssetsInfo(jsons) {
+    for (let json of jsons) {
+      let stock = {}
+      stock['symbol'] = json['종목코드'].slice(1)
+      stock['company'] = json['종목명']
+      stock['shares'] = parseInt(json['보유수량'])
+      stock['averageBuyingPrice'] = Math.round(parseFloat(json['평균단가']))
+      stock['currentPrice'] = parseInt(json['현재가'])
+      this.addAsset(stock)
     }
   }
 }

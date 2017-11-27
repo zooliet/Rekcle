@@ -12,11 +12,9 @@ class WatchList extends React.Component {
   }
 
   componentDidMount() {
-    // const { accountNo } = this.props.kiwoomStore.basicInfo
-    //
-    // this.props.kiwoomStore.getWatchList(accountNo).then(list => {
-    //   if(list && list.error)  { console.log(list.error) }
-    // })
+    this.props.kiwoomStore.sls.getAssets().then(assets => {
+      if(assets && assets.error) {console.log(assets.error)}
+    })
   }
 
   componentWillReceiveProps(nextProps) {}

@@ -11,12 +11,16 @@ class AccountBalance extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.kiwoomStore.checkBalance()
+    this.props.kiwoomStore.bis.checkBalance().then(balance => {
+      if(balance && balance.error) {console.log(balance.error)}
+    })
   }
 
 
   handleCheckBalance() {
-    this.props.kiwoomStore.checkBalance()
+    this.props.kiwoomStore.bis.checkBalance().then(balance => {
+      if(balance && balance.error) {console.log(balance.error)}
+    })
   }
 
   render() {
