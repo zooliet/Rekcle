@@ -32,7 +32,6 @@ class AllStocks extends React.Component {
 
         <StockList
           stockList={filteredList}
-          watchList={watchList}
           toggleWatching={sls.toggleWatching}
         />
       </div>

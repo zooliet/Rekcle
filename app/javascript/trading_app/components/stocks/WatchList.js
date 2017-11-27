@@ -26,13 +26,12 @@ class WatchList extends React.Component {
   componentWillReact() {}
 
   render() {
-    const { watchList, toggleWatching } = this.props.kiwoomStore
+    const { watchList, sls, serverAddress } = this.props.kiwoomStore
 
     return(
       <StockList
         stockList={watchList}
-        watchList={watchList}
-        toggleWatching={toggleWatching}
+        toggleWatching={sls.toggleWatching}
       />
     );
   }

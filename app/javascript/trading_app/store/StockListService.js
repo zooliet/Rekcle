@@ -6,7 +6,7 @@ class StockListService {
     this.kiwoomStore = kiwoomStore
 
     this.toggleWatching = this.toggleWatching.bind(this)
-    // this.addPortfolio = this.addPortfolio.bind(this)
+    this.addAsset = this.addAsset.bind(this)
   }
 
   // getAllSymbols(serverAddress, accountNo) {
@@ -71,16 +71,16 @@ class StockListService {
     }
   }
 
-  // addPortfolio(asset) {
-  //   // const { 종목코드, 종목명, 보유수량, 평균단가, 현재가 } = asset
-  //   const { symbol, company, shares, averageBuyingPrice, currentPrice } = asset
-  //   const index = this.portfolio.findIndex(asset => asset.symbol === symbol)
-  //   if (index !== -1) {
-  //     this.portfolio = this.portfolio.slice(0, index).concat(asset).concat(this.portfolio.slice(index+1))
-  //   } else {
-  //     this.portfolio = [...this.portfolio, asset]
-  //   }
-  // }
+  addAsset(asset) {
+    // const { 종목코드, 종목명, 보유수량, 평균단가, 현재가 } = asset
+    const { symbol, company, shares, averageBuyingPrice, currentPrice } = asset
+    const index = this.kiwoomStore.assets.findIndex(asset => asset.symbol === symbol)
+    if (index !== -1) {
+      this.kiwoomStore.assets = this.kiwoomStore.assets.slice(0, index).concat(asset).concat(this.kiwoomStore.assets.slice(index+1))
+    } else {
+      this.kiwoomStore.assets = [...this.kiwoomStore.assets, asset]
+    }
+  }
 }
 
 export default StockListService

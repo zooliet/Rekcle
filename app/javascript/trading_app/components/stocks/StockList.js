@@ -23,12 +23,10 @@ class StockList extends React.Component {
   }
 
   renderRow = ({index, parent, key, style}) => {
-    const { stockList, watchList } = this.props
+    const { stockList } = this.props
 
-    const { company, symbol } = stockList[index]
-    // const watched = watchList.filter(stock => stock.watching).map(stock => stock.symbol).includes(symbol)
-    const watched = watchList.map(stock => stock.symbol).includes(symbol)
-    const owned = null // watchList.find(stock => (stock.symbol === symbol && stock.shares) > 0)
+    const { company, symbol, watching, shares } = stockList[index]
+    const watched = watching
 
     return(
       <CellMeasurer
@@ -43,8 +41,8 @@ class StockList extends React.Component {
             <span className=''>{`${company} (${symbol})`}</span>
             <div>
               {
-                owned &&
-                <small>{`${owned.shares}주 보유 · `}</small>
+                shares > 0 &&
+                <small>{`${shares}주 보유 · `}</small>
               }
               <small>
                 <label htmlFor={`watch-${symbol}`}>관심 종목</label>

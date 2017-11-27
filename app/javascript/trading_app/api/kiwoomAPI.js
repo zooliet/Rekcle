@@ -42,4 +42,13 @@ const checkBalance = (address, accountNo) => {
   )
 }
 
-export { login, poweroff, checkBalance }
+const getAssets = (address, accountNo) => {
+  const url =  `http://${address}:5000/assets/${accountNo}`
+  return(
+    axios.get(url)
+      .then(response => response.data)
+      .catch(handleAxiosError)
+  )
+}
+
+export { login, poweroff, checkBalance, getAssets }

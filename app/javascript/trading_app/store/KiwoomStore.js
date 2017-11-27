@@ -9,33 +9,6 @@ import StockListService from 'trading_app/store/StockListService'
 import * as kiwoomAPI from 'trading_app/api/kiwoomAPI'
 import * as stockAPI from 'trading_app/api/stockAPI'
 
-
-// class Bar {
-//   hello(foo) {
-//     console.log('Bar#hello()')
-//     console.log(foo.greeting)
-//   }
-// }
-//
-// class Foo {
-//   @observable greeting = "Foo"
-//   constructor() {
-//     console.log('initializing foo');
-//     this.bar = new Bar()
-//   }
-//
-//   hello() {
-//     console.log('Foo#hello()')
-//     this.bar.hello(this)
-//   }
-// }
-//
-// const foo = new Foo()
-// foo.bar.hello(foo)
-//
-// const bar = new Bar()
-// bar.hello(foo)
-
 class KiwoomStore {
   @observable connectionInfo = {
     connected: 'disconnected',  // 'connected', 'disconnected', 'connecting'
@@ -58,18 +31,41 @@ class KiwoomStore {
     누적손익율: 0
   }
 
-  @observable accountNo = ""
-
   @observable symbolList = []
+  @observable assets = []
   @observable searchTerm = ""
 
   @computed get filteredList() {
     const searchFilter = new RegExp(this.searchTerm, 'i')
-    return this.symbolList.filter(stock => !this.searchTerm || searchFilter.test(stock.company) || searchFilter.test(stock.symbol))
+    return this.symbolList.filter(stock => !this.searchTerm || searchFilter.test(stock.company) || searchFilter.test(stock.symbol))      
   }
 
   @computed get watchList() {
-    return this.symbolList.filter(stock => stock.watching)
+    const watchList = this.symbolList.filter(stock => stock.watching)
+    // const assets = [...this.assets]
+    let assets = this.assets.map(asset => {
+      return({symbol: asset.symbol, company: asset.company,
+              watching: false, shares: asset.shares,
+              currentPrice: asset.currentPrice, averageBuyingPrice: asset.averageBuyingPrice
+      })
+    })
+
+    for (let watched of watchList) {
+      let watched_asset = assets.find(asset => {
+        return asset.symbol === watched.symbol
+      })
+      if(watched_asset) {
+        watched_asset.watching = true
+      } else {
+        assets.push({symbol: watched.symbol, company: watched.company, watching: true, shares: 0})
+      }
+    }
+
+    return assets.sort((a, b) => {
+      if (a.company > b.company) return 1
+      else if (a.company < b.company) return -1
+      return 0
+    })
   }
 
   // @observable watchList = []
@@ -77,7 +73,6 @@ class KiwoomStore {
   //   return this.watchList.filter(stock => stock.shares > 0)
   // }
   @observable recommendedList = []
-  @observable portfolio = []
 
 
 
@@ -96,7 +91,7 @@ class KiwoomStore {
 
     this.handleBasicInfo = this.handleBasicInfo.bind(this)
     this.handleBalanceInfo = this.handleBalanceInfo.bind(this)
-    this.handlePortfolioInfo = this.handlePortfolioInfo.bind(this)
+    this.handleAssetsInfo = this.handleAssetsInfo.bind(this)
 
     this.timerListener = this.timerListener.bind(this)
     this.handleSSE = this.handleSSE.bind(this)
@@ -127,7 +122,7 @@ class KiwoomStore {
 
     this.wss.socket.on('basic-info', this.handleBasicInfo)
     this.wss.socket.on('balance-info', this.handleBalanceInfo)
-    this.wss.socket.on('portfolio-info', this.handlePortfolioInfo)
+    this.wss.socket.on('assets-info', this.handleAssetsInfo)
 
     this.wss.socket.on('timer', this.timerListener)
     this.wss.socket.on('SSE', this.handleSSE)
@@ -183,7 +178,7 @@ class KiwoomStore {
     // this.basicInfo.accountNo = json['ACCNO'].endsWith(';') ? json['ACCNO'].slice(0, -1) : json['ACCNO']
 
     this.checkBalance()
-    // this.sls.getAllSymbols(this.serverAddress, this.basicInfo.accountNo).then(
+    this.getAssets()
     this.sls.getAllSymbols().then(
       (list) => {
         if (!list.error) {
@@ -192,7 +187,8 @@ class KiwoomStore {
       }
     )
 
-    // this.sls.getWatchList(this.serverAddress, this.basicInfo.accountNo).then(
+
+
     // this.sls.getWatchList().then(
     //   (list) => {
     //     if (!list.error) {
@@ -217,15 +213,15 @@ class KiwoomStore {
     }
   }
 
-  handlePortfolioInfo(jsons) {
+  handleAssetsInfo(jsons) {
     for (let json of jsons) {
       let stock = {}
-      stock['symbol'] = json['종목코드']
+      stock['symbol'] = json['종목코드'].slice(1)
       stock['company'] = json['종목명']
       stock['shares'] = parseInt(json['보유수량'])
       stock['averageBuyingPrice'] = Math.round(parseFloat(json['평균단가']))
       stock['currentPrice'] = parseInt(json['현재가'])
-      // this.sls.addPortfolio(stock)
+      this.sls.addAsset(stock)
     }
   }
 
@@ -283,6 +279,13 @@ class KiwoomStore {
 
   @action checkBalance() {
     return kiwoomAPI.checkBalance(this.connectionInfo.address, this.basicInfo.accountNo).then(
+      (response) => response.data,
+      (error) => { return {error: error.message}}
+    )
+  }
+
+  @action getAssets() {
+    return kiwoomAPI.getAssets(this.connectionInfo.address, this.basicInfo.accountNo).then(
       (response) => response.data,
       (error) => { return {error: error.message}}
     )
