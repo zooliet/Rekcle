@@ -10,6 +10,7 @@ class StockListService {
     this.addAsset = this.addAsset.bind(this)
 
     this.handleAssetsInfo = this.handleAssetsInfo.bind(this)
+    this.handleKiwoomEquationsInfo = this.handleKiwoomEquationsInfo.bind(this)
   }
 
   getAllSymbols() {
@@ -100,6 +101,23 @@ class StockListService {
       stock['currentPrice'] = parseInt(json['현재가'])
       this.addAsset(stock)
     }
+  }
+
+  getKiwoomEquations() {
+    const url =  `http://${this.kiwoomStore.connectionInfo.address}:5000/equations`
+    return kiwoomAPI.getKiwoomEquations(url).then(
+      (response) => response.data,
+      (error) => { return {error: error.message}}
+    )
+  }
+
+  handleKiwoomEquationsInfo(json) {
+    // console.log(json)
+    this.kiwoomStore.kiwoomEquations = json.sort((a, b) => {
+      if (a.인덱스 > b.인덱스) return 1
+      else if (a.인덱스 < b.인덱스) return -1
+      return 0
+    })
   }
 }
 

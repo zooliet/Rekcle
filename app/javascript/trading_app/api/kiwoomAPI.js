@@ -44,4 +44,12 @@ const getAssets = (url) => {
   )
 }
 
-export { login, poweroff, checkBalance, getAssets }
+const getKiwoomEquations = (url) => {
+  return(
+    axios.get(url)
+      .then(response => response.data)
+      .catch(handleAxiosError)
+  )
+}
+
+export { login, poweroff, checkBalance, getAssets, getKiwoomEquations }

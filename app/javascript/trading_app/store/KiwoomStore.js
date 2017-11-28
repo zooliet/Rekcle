@@ -70,6 +70,8 @@ class KiwoomStore {
     })
   }
 
+  @observable kiwoomEquations = []
+
   constructor() {
     this.timerListener = this.timerListener.bind(this)
     this.handleSSE = this.handleSSE.bind(this)
@@ -99,7 +101,8 @@ class KiwoomStore {
     this.wss.socket.on('balance-info', this.bis.handleBalanceInfo)
 
     this.wss.socket.on('assets-info', this.sls.handleAssetsInfo)
-
+    this.wss.socket.on('equations-info', this.sls.handleKiwoomEquationsInfo)
+    
     this.wss.socket.on('timer', this.timerListener)
     this.wss.socket.on('SSE', this.handleSSE)
     this.wss.socket.on('message', this.handleMessage)
