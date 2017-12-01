@@ -8,8 +8,8 @@ class Api::V1::SymbolsController < ApplicationController
     # stock_symbols = StockSymbol.order(:company) # .select(:company, :symbol)
     # render json: stock_symbols
 
-    user = User.find_by(account_no: params[:account])
-    
+    user = User.find_by(account: params[:account])
+
     stocks = StockSymbol.order(:company)
     watchlist_ids = user.watchlist_ids
 

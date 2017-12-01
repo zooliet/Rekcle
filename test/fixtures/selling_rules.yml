@@ -2,10 +2,10 @@
 
 one:
   name: MyString
-  account: MyString
-  login: MyString
+  user: one
+  conditions: 
 
 two:
   name: MyString
-  account: MyString
-  login: MyString
+  user: two
+  conditions: 

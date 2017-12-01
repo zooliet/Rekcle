@@ -3,7 +3,13 @@
 one:
   user: one
   stock_symbol: one
+  kiwoom_equation: one
+  shares: MyString
+  average_price: 9.99
 
 two:
   user: two
   stock_symbol: two
+  kiwoom_equation: two
+  shares: MyString
+  average_price: 9.99

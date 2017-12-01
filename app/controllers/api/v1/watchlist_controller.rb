@@ -3,7 +3,7 @@ class Api::V1::WatchlistController < ApplicationController
 
   def index
     # puts("### #{params}")
-    if user = User.find_by(account_no: params[:account])
+    if user = User.find_by(account: params[:account])
       watchlists = user.watchlists
       render json: watchlists
     else
@@ -21,7 +21,7 @@ class Api::V1::WatchlistController < ApplicationController
   end
 
   def create
-    user = User.find_by(account_no: params[:account])
+    user = User.find_by(account: params[:account])
     stock_symbol = StockSymbol.find_by(company: params[:stock][:company], symbol: params[:stock][:symbol])
 
     if stock_symbol && user
@@ -35,7 +35,7 @@ class Api::V1::WatchlistController < ApplicationController
   end
 
   def destroy
-    user = User.find_by(account_no: params[:account])
+    user = User.find_by(account: params[:account])
     stock_symbol = StockSymbol.find_by(company: params[:company], symbol: params[:symbol])
     watching = Watching.find_by(user: user, stock_symbol: stock_symbol )
     if user && stock_symbol && watching

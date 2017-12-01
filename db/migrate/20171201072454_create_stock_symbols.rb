@@ -6,7 +6,5 @@ class CreateStockSymbols < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-    add_index :stock_symbols, :company
-    add_index :stock_symbols, :symbol
   end
 end

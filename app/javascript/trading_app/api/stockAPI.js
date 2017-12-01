@@ -263,8 +263,8 @@ const updateLogin = (url, {userName, userId, accountNo}) => {
     format: 'json',
     user: {
       name: userName,
-      login_id: userId,
-      account_no: accountNo
+      login: userId,
+      account: accountNo
     }
   }
   return axios.post(url, data)

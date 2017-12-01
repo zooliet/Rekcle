@@ -2,10 +2,14 @@
 
 one:
   name: MyString
-  account: MyString
-  login: MyString
+  user: one
+  watching: one
+  selling_rule: one
+  conditions: 
 
 two:
   name: MyString
-  account: MyString
-  login: MyString
+  user: two
+  watching: two
+  selling_rule: two
+  conditions: 

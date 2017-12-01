@@ -2,10 +2,10 @@
 
 one:
   name: MyString
-  account: MyString
-  login: MyString
+  user: one
+  buying_rule: one
 
 two:
   name: MyString
-  account: MyString
-  login: MyString
+  user: two
+  buying_rule: two
