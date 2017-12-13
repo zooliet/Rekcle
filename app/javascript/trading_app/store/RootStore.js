@@ -27,6 +27,7 @@ class RootStore {
       connectionStore: this.connectionStore,
       basicInfoStore: this.basicInfoStore,
       stockListStore: this.stockListStore,
+      strategyStore: this.strategyStore,
     }
 
     // this.timerListener = this.timerListener.bind(this)
@@ -53,7 +54,8 @@ class RootStore {
     this.wss.socket.on('balance-info', this.basicInfoStore.handleBalanceInfo)
 
     this.wss.socket.on('assets-info', this.stockListStore.handleAssetsInfo)
-    this.wss.socket.on('equations-info', this.stockListStore.handleKiwoomEquationsInfo)
+
+    this.wss.socket.on('equations-info', this.strategyStore.handleKiwoomEquationsInfo)
 
     this.wss.socket.on('timer', this.timerListener.bind(this))
     this.wss.socket.on('SSE', this.handleSSE.bind(this))

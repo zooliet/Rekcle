@@ -10,7 +10,7 @@ class KiwoomEquation extends React.Component {
   }
 
   componentDidMount() {
-    this.props.store.stockListStore.getKiwoomEquations().then(equations => {
+    this.props.store.strategyStore.getKiwoomEquations().then(equations => {
       if(equations && equations.error) {console.log(equations.error)}
     })
   }

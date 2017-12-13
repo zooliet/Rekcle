@@ -7,7 +7,7 @@ class AccountBalance extends React.Component {
   constructor(props) {
     super(props)
 
-    // this.handleCheckBalance = this.handleCheckBalance.bind(this)
+    this.handleCheckBalance = this.handleCheckBalance.bind(this)
   }
 
   componentDidMount() {
@@ -69,7 +69,7 @@ class AccountBalance extends React.Component {
             <tr>
               <th scope="row" className='w-25'></th>
               <td className='w-75'>
-                <button className='btn btn-success' onClick={this.handleCheckBalance.bind(this)}>
+                <button className='btn btn-success' onClick={this.handleCheckBalance}>
                   업데이트
                 </button>
               </td>

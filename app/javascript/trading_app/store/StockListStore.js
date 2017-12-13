@@ -49,7 +49,6 @@ class StockListStore {
     this.addAsset = this.addAsset.bind(this)
 
     this.handleAssetsInfo = this.handleAssetsInfo.bind(this)
-    this.handleKiwoomEquationsInfo = this.handleKiwoomEquationsInfo.bind(this)
 
     // this.getAllSymbols().then(symbols => {
     //   if(symbols && symbols.error) { console.log(symbols.error) }
@@ -123,8 +122,9 @@ class StockListStore {
 
   addAsset(asset) {
     // const { 종목코드, 종목명, 보유수량, 평균단가, 현재가 } = asset
+    const { symbol, name, shares, averageBuyingPrice, currentPrice } = asset
+    const newAsset = new Asset({ symbol, name, shares, averageBuyingPrice, currentPrice })
 
-    const newAsset = new Asset(asset)
     const index = this.assets.findIndex(asset => newAsset.symbol === symbol)
     if (index !== -1) { // update
       this.assets = this.assets.slice(0, index).concat(newAsset).concat(this.assets.slice(index+1))

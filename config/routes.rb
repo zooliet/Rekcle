@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
       resources :users, only: [:create, :show]
       # post 'users', to: 'users#create'
+
+      get 'kiwoom_equations(/*account)', to: 'kiwoom_equations#index'
     end
   end
 

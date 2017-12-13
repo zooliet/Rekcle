@@ -329,6 +329,15 @@ const removeWatchList = (serverAddress, accountNo, symbol, name) => {
     .catch(handleAxiosError)
 }
 
+const getKiwoomEquations = (serverAddress, accountNo) => {
+  const url = `http://${serverAddress}/api/v1/kiwoom_equations/${accountNo}`
+
+  return axios.get(url)
+    .then( response => response.data )
+    .catch(handleAxiosError)
+
+}
+
 // const toggleWatching = (url, symbol, name) => {
 //   const data = {
 //     format: 'json',
@@ -344,4 +353,7 @@ const removeWatchList = (serverAddress, accountNo, symbol, name) => {
 //
 // }
 
-export { updateLogin, getAllSymbols, getWatchList, addWatchList, removeWatchList }
+export {
+  updateLogin, getAllSymbols, getWatchList, addWatchList, removeWatchList,
+  getKiwoomEquations
+}

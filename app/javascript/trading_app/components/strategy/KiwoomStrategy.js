@@ -10,9 +10,9 @@ class KiwoomStragtegy extends React.Component {
   }
 
   componentDidMount() {
-    this.props.rootStore.stockListStore.getKiwoomEquations().then(equations => {
-      if(equations && equations.error) {console.log(equations.error)}
-    })
+    // this.props.rootStore.strategyStore.getKiwoomEquations().then(equations => {
+    //   if(equations && equations.error) {console.log(equations.error)}
+    // })
   }
 
   render() {

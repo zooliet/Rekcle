@@ -29,7 +29,7 @@ class BasicInfoStore {
 
   checkBalance() {
     const { agentAddress } = this.rootStore
-    const { accountNo } = this.basicInfo
+    const { accountNo } = this.rootStore.basicInfoStore.basicInfo
 
     return kiwoomAPI.checkBalance(agentAddress, accountNo).then(
       (response) => response.data,
@@ -44,13 +44,13 @@ class BasicInfoStore {
     this.basicInfo.userId = json['USER_ID']
     this.basicInfo.accountNo = json['ACCNO'].slice(0, -1).split(';').reverse()[0]
 
-    // this.checkBalance()
+    this.checkBalance()
 
-    // stockListStore.getAssets()
+    stockListStore.getAssets()
 
-    // stockListStore.getAllSymbols().then(symbols => {
-    //   if(symbols && symbols.error) { console.log(symbols.error) }
-    // })
+    stockListStore.getAllSymbols().then(symbols => {
+      if(symbols && symbols.error) { console.log(symbols.error) }
+    })
 
     // stockListStore.getWatchList().then(stocks => {
     //   if(stocks && stocks.error) { console.log(stocks.error) }
