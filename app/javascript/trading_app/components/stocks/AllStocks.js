@@ -5,7 +5,7 @@ import { observer, inject } from 'mobx-react';
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 import StockList from './StockList'
 
-@inject('kiwoomStore') @observer
+@inject('rootStore') @observer
 class AllStocks extends React.Component {
   constructor(props) {
     super(props)
@@ -13,11 +13,11 @@ class AllStocks extends React.Component {
 
   search(e) {
     e.preventDefault()
-    this.props.kiwoomStore.searchTerm = e.target.value
+    this.props.rootStore.stockListStore.searchTerm = e.target.value
   }
 
   render() {
-    const { filteredList, watchList, searchTerm, sls, serverAddress } = this.props.kiwoomStore
+    const { stockListStore } = this.props.rootStore.stores
 
     return(
       <div>
@@ -25,14 +25,14 @@ class AllStocks extends React.Component {
           <input type='text'
             className="form-control w-100"
             placeholder='회사명이나 코드를 입력하세요'
-            value={searchTerm}
+            value={stockListStore.searchTerm}
             onChange={this.search.bind(this)}
           />
         </div>
 
         <StockList
-          stockList={filteredList}
-          toggleWatching={sls.toggleWatching}
+          stockList={stockListStore.filteredList}
+          toggleWatching={stockListStore.toggleWatching}
         />
       </div>
     );

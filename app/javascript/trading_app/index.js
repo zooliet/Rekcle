@@ -6,10 +6,13 @@ import 'react-virtualized/styles.css'
 // import 'react-select/dist/react-select.css';
 
 import './style.css'
-import configureStore from './configureStore'
+// import configureStore from './configureStore'
+import RootStore from 'trading_app/store/RootStore'
 import Root from './components/Root'
 
-const store = window.store = configureStore()
+// const store = window.store = configureStore()
+const store = window.store = new RootStore()
+
 ReactDOM.render(
   <Root store={store}/>,
   document.getElementById('trading_app')

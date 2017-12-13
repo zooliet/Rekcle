@@ -14,10 +14,10 @@ class StockList extends React.Component {
     })
   }
 
-  handleToggleWatching({watched, symbol, company}) {
+  handleToggleWatching({watched, symbol, name}) {
     const { toggleWatching } = this.props
 
-    toggleWatching({watched, symbol, company}).then(() => {
+    toggleWatching({watched, symbol, name}).then(() => {
       this.list.forceUpdateGrid()
     })
   }
@@ -25,7 +25,7 @@ class StockList extends React.Component {
   renderRow = ({index, parent, key, style}) => {
     const { stockList } = this.props
 
-    const { company, symbol, watching, shares } = stockList[index]
+    const { name, symbol, watching, shares } = stockList[index]
     const watched = watching
 
     return(
@@ -38,7 +38,7 @@ class StockList extends React.Component {
         >
         <div style={style}>
           <div className='mb-2' style={{borderBottom: '1px solid #ddd'}}>
-            <span className=''>{`${company} (${symbol})`}</span>
+            <span className=''>{`${name} (${symbol})`}</span>
             <div>
               {
                 shares > 0 &&
@@ -52,11 +52,11 @@ class StockList extends React.Component {
                   id={`watch-${symbol}`}
                   ref={node => this.watched = node}
                   checked={watched}
-                  // onChange={this.handleToggleWatching.bind(this, list, {watched, symbol, company})}
-                  onChange={this.handleToggleWatching.bind(this, {watched, symbol, company})}
+                  // onChange={this.handleToggleWatching.bind(this, list, {watched, symbol, name})}
+                  onChange={this.handleToggleWatching.bind(this, {watched, symbol, name})}
                   // onChange={(e) => {
                   //   e.preventDefault()
-                  //   toggleWatching(watched, {symbol, company}).then(() => {
+                  //   toggleWatching(watched, {symbol, name}).then(() => {
                   //     this.list.forceUpdateGrid()
                   //   })
                   // }}

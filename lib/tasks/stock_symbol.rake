@@ -9,12 +9,12 @@ namespace :rekcle do
     stocks = SmarterCSV.process('lib/tasks/stock_symbols.csv')
 
     # results = stocks.map do |stock|
-    #   {company: stock[:회사명], symbol: "%06d" % stock[:종목코드]}
+    #   {name: stock[:회사명], symbol: "%06d" % stock[:종목코드]}
     # end
     # puts(results)
 
     stocks.each do |stock|
-      StockSymbol.create(company: stock[:회사명], symbol: "%06d" % stock[:종목코드])
+      StockSymbol.create(name: stock[:회사명], symbol: "%06d" % stock[:종목코드])
     end
 
   end

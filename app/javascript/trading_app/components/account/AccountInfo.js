@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { observer, inject } from 'mobx-react';
 
-@inject('kiwoomStore') @observer
+@inject('rootStore') @observer
 class AccountInfo extends React.Component {
   constructor(props) {
     super(props)
@@ -11,7 +11,7 @@ class AccountInfo extends React.Component {
 
   render() {
     // console.log('AccountInfo#render()')
-    const { basicInfo, cls } = this.props.kiwoomStore
+    const { basicInfoStore, connectionStore } = this.props.rootStore.stores
 
     return (
       <div className='w-100'>
@@ -19,20 +19,20 @@ class AccountInfo extends React.Component {
           <tbody>
             <tr>
               <th scope="row" className='w-25'>사용자명</th>
-              <td className='w-75'>{basicInfo.userName}</td>
+              <td className='w-75'>{basicInfoStore.basicInfo.userName}</td>
             </tr>
             <tr>
               <th scope="row" className='w-25'>사용자 ID</th>
-              <td className='w-75'>{basicInfo.userId}</td>
+              <td className='w-75'>{basicInfoStore.basicInfo.userId}</td>
             </tr>
             <tr>
               <th scope="row" className='w-25'>계정번호</th>
-              <td className='w-75'>{basicInfo.accountNo}</td>
+              <td className='w-75'>{basicInfoStore.basicInfo.accountNo}</td>
             </tr>
             <tr>
               <th scope="row" className='w-25'></th>
               <td className='w-75'>
-                <button className='btn btn-success' onClick={() => cls.disconnect()}>
+                <button className='btn btn-success' onClick={() => connectionStore.disconnect()}>
                   접속 끊기
                 </button>
               </td>

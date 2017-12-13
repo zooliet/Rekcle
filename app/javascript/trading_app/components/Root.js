@@ -12,9 +12,9 @@ import AccountMain from './account/AccountMain'
 // import FormDemoMain from './form_demo/FormDemoMain'
 
 const Root = ({store}) => {
-  // console.log(store)
   return(
-    <Provider {...store}>
+    // <Provider {...store}>
+    <Provider rootStore={store}>
       <Router basename='/tradings' className='my-5'>
         <div className='my-5'>
           <Nav />

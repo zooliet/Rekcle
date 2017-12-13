@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import { observer, inject } from 'mobx-react';
 
 @inject('rootStore') @observer
-class KiwoomEquation extends React.Component {
+class KiwoomStragtegy extends React.Component {
   constructor(props) {
     super(props)
-    // console.log('KiwoomEquation()')
+    // console.log('KiwoomStragtegy()')
   }
 
   componentDidMount() {
-    this.props.store.stockListStore.getKiwoomEquations().then(equations => {
+    this.props.rootStore.stockListStore.getKiwoomEquations().then(equations => {
       if(equations && equations.error) {console.log(equations.error)}
     })
   }
@@ -48,4 +48,4 @@ class KiwoomEquation extends React.Component {
   }
 }
 
-export default KiwoomEquation
+export default KiwoomStragtegy

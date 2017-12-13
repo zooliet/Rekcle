@@ -9,23 +9,24 @@ import AccountInfo from './AccountInfo'
 import AccountBalance from './AccountBalance'
 // import ConnectionHistory from './ConnectionHistory'
 
-@inject('kiwoomStore') @observer
+@inject('rootStore') @observer
 class AccountMain extends React.Component {
   constructor(props) {
     super(props)
   }
 
   render() {
-    const { connectionInfo } = this.props.kiwoomStore
+    const { connectionInfo } = this.props.rootStore.connectionStore
     return (
       // <div className="jumbotron my-5">
       //   <h1 className='text-center'>접속 설정 화면입니다.</h1>
       // </div>
 
       <div className="my-5">
-        <ConnectAndLogin />
+        {/* <ConnectAndLogin />
         { connectionInfo.connected === 'connected' &&
-          connectionInfo.loggedIn &&
+          connectionInfo.loggedIn && */}
+        {
           <div className="row">
             <div className="col-md-3 col-lg-3">
               <AccountListNav />

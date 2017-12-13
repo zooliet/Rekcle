@@ -5,14 +5,14 @@ import { Route, Switch } from 'react-router-dom'
 
 import ConnectAndLogin from 'trading_app/components/ConnectAndLogin'
 
-@inject('kiwoomStore') @observer
+@inject('rootStore') @observer
 class TradingMain extends React.Component {
   constructor(props) {
     super(props)
   }
 
   render() {
-    const { connectionInfo } = this.props.kiwoomStore
+    const { connectionInfo } = this.props.rootStore.connectionStore
 
     return (
       <div className="my-5">

@@ -3,8 +3,10 @@ import axios from 'axios'
 // import checkStatus from 'trading_app/lib/utils/checkStatus'
 import handleAxiosError from 'trading_app/lib/utils/handleAxiosError'
 
-const login = (url) => {
+const login = (agentAddress) => {
+  const url =  `http://${agentAddress}:5000/login`
   // console.log(url)
+
   const data = {
     format: 'json'
   }
@@ -15,8 +17,10 @@ const login = (url) => {
   )
 }
 
-const poweroff = (url) => {
+const poweroff = (agentAddress) => {
+  const url =  `http://${agentAddress}:5000/poweroff`
   // console.log(url)
+
   const data = {
     format: 'json'
   }
@@ -27,8 +31,10 @@ const poweroff = (url) => {
   )
 }
 
-const checkBalance = (url) => {
+const checkBalance = (agentAddress, accountNo) => {
+  const url =  `http://${agentAddress}:5000/check_balance/${accountNo}`
   // console.log(url)
+
   return(
     axios.get(url)
       .then(response => response.data)
@@ -36,7 +42,10 @@ const checkBalance = (url) => {
   )
 }
 
-const getAssets = (url) => {
+const getAssets = (agentAddress, accountNo) => {
+  const url =  `http://${agentAddress}:5000/assets/${accountNo}`
+  // console.log(url)
+
   return(
     axios.get(url)
       .then(response => response.data)
@@ -44,7 +53,10 @@ const getAssets = (url) => {
   )
 }
 
-const getKiwoomEquations = (url) => {
+const getKiwoomEquations = (agentAddress) => {
+  const url =  `http://${agentAddress}:5000/equations`
+  // console.log(url)
+
   return(
     axios.get(url)
       .then(response => response.data)

@@ -5,16 +5,16 @@ import { observer, inject } from 'mobx-react';
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
 import StockList from './StockList'
 
-@inject('kiwoomStore') @observer
+@inject('rootStore') @observer
 class WatchList extends React.Component {
   constructor(props) {
     super(props)
   }
 
   componentDidMount() {
-    this.props.kiwoomStore.sls.getAssets().then(assets => {
-      if(assets && assets.error) {console.log(assets.error)}
-    })
+    // this.props.rootStore.stockListStore.getAssets().then(assets => {
+    //   if(assets && assets.error) {console.log(assets.error)}
+    // })
   }
 
   componentWillReceiveProps(nextProps) {}
@@ -24,12 +24,11 @@ class WatchList extends React.Component {
   componentWillReact() {}
 
   render() {
-    const { watchList, sls, serverAddress } = this.props.kiwoomStore
-
+    const { stockListStore } = this.props.rootStore.stores
     return(
       <StockList
-        stockList={watchList}
-        toggleWatching={sls.toggleWatching}
+        stockList={stockListStore.watchedSymbolList}
+        toggleWatching={stockListStore.toggleWatching}
       />
     );
   }

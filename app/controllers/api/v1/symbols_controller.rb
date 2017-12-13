@@ -2,19 +2,24 @@ class Api::V1::SymbolsController < ApplicationController
   def index
     # stocks = SmarterCSV.process('public/stock_symbols.csv')
     # results = stocks.map do |stock|
-    #   {company: stock[:회사명], symbol: "%06d" % stock[:종목코드]}
+    #   {name: stock[:회사명], symbol: "%06d" % stock[:종목코드]}
     # end
 
-    # stock_symbols = StockSymbol.order(:company) # .select(:company, :symbol)
+    # stock_symbols = StockSymbol.order(:name) # .select(:name, :symbol)
     # render json: stock_symbols
 
-    user = User.find_by(account: params[:account])
+    if params[:account]
+      user = User.find_by(account: params[:account])
+    else
+      user = User.first
+    end
 
-    stocks = StockSymbol.order(:company)
-    watchlist_ids = user.watchlist_ids
+    stocks = StockSymbol.order(:name)
+    # watchings = user.watchlists.where(watching: true).map(&:stock_symbol_id)
+    watchings = user.watchlists.map(&:stock_symbol_id)
 
     response = stocks.map do |stock|
-      {symbol: stock.symbol, company: stock.company, watching: watchlist_ids.include?(stock.id)}
+      {symbol: stock.symbol, name: stock.name, watching: watchings.include?(stock.id)}
     end
 
     render json: response

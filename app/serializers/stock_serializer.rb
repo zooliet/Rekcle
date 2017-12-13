@@ -1,3 +1,3 @@
 class StockSerializer < ActiveModel::Serializer
-  attributes :id, :company, :symbol, :shares, :watching
+  attributes :id, :name, :symbol, :shares, :watching
 end
