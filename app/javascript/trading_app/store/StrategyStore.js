@@ -4,15 +4,8 @@ import * as kiwoomAPI from 'trading_app/api/kiwoomAPI'
 
 class StrategyStore {
 
-  // UI에서는 kiwoomEquations을 사용
-  // kiwoomEquationsServer는 서버에 저장된 정보로 초기화 시 한번만 호출
-  // kiwoomEquationsLive는 해당 React 클래스 생성 시 마다 호출하며, 이 정보를 기준으로 kiwoomEquationsServer를 업데이트
-
   // @observable kiwoomEquationsServer = []
-  @observable kiwoomEquationsLive = []
-  @computed get kiwoomEquations() {
-    return [...this.kiwoomEquationsLive]
-  }
+  @observable kiwoomEquations = []
 
   constructor(rootStore) {
     this.rootStore = rootStore
@@ -26,9 +19,10 @@ class StrategyStore {
     // (1) 테스트 목적 (2) 궁극적으로는 BasicInfoStore#handleBasicInfo()에서 호출
     this.getKiwoomEquations()
 
-    autorun(() => {
-      console.log(this.kiwoomEquations)
-    })
+    // autorun(() => {
+    //   this.kiwoomEquation = [...this.kiwoomEquations]
+    //   console.log("autorun()", this.kiwoomEquation)
+    // })
   }
 
   getKiwoomEquations() {
@@ -42,7 +36,7 @@ class StrategyStore {
 
     return railsAPI.getKiwoomEquations(serverAddress, accountNo).then(
       (equations) => {
-        console.log(equations)
+        // console.log(equations)
         this.kiwoomEquationsServer = equations
       },
       (error) => { return {error: error.message}}
@@ -58,11 +52,24 @@ class StrategyStore {
   }
 
   handleKiwoomEquationsInfo(json) {
-    console.log(json)
-    this.kiwoomEquationsLive = json.sort((a, b) => a.인덱스 > b.인덱스 ? 1 : a.인덱스 < b.인덱스 ? -1 : 0)
+    // console.log(json)
+    this.kiwoomEquations = json.sort((a, b) => a.인덱스 > b.인덱스 ? 1 : a.인덱스 < b.인덱스 ? -1 : 0)
+
+    this.kiwoomEquations= this.kiwoomEquations.map(equation => {
+      let saved = this.kiwoomEquationsServer.find(eq => eq.조건명 === equation.조건명)
+      if(saved) {
+        return Object.assign({}, saved, equation)
+      } else {
+        return equation
+      }
+    })
+
+    this.kiwoomEquationsServer = [...this.kiwoomEquations]
+    // then
+    const { serverAddress } = this.rootStore
+    const { accountNo } = this.rootStore.basicInfoStore.basicInfo
+    railsAPI.updateKiwoomEquations(serverAddress, accountNo, this.kiwoomEquationsServer)
   }
-
-
 
 
   getWatchList() {

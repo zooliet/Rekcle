@@ -1,4 +1,5 @@
 class Api::V1::KiwoomEquationsController < ApplicationController
+  protect_from_forgery unless: -> { request.format.json? || request.format.api_json? }
   def index
     if params[:account]
       user = User.find_by(account: params[:account])
@@ -13,6 +14,21 @@ class Api::V1::KiwoomEquationsController < ApplicationController
     end
 
     render json: response
+  end
+
+  def update
+    puts("***#{params}")
+    if params[:account]
+      user = User.find_by(account: params[:account])
+    else
+      user = User.first
+    end
+
+    params[:kiwoom_equations].each do |equation|
+
+    end
+
+    head :ok
   end
 
 end

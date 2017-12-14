@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       # post 'users', to: 'users#create'
 
       get 'kiwoom_equations(/*account)', to: 'kiwoom_equations#index'
+      patch 'kiwoom_equations(/*account)', to: 'kiwoom_equations#update'
     end
   end
 

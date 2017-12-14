@@ -338,6 +338,20 @@ const getKiwoomEquations = (serverAddress, accountNo) => {
 
 }
 
+const updateKiwoomEquations = (serverAddress, accountNo, kiwoomEquations) => {
+  const url = `http://${serverAddress}/api/v1/kiwoom_equations/${accountNo}`
+
+  const data = {
+    format: 'json',
+    kiwoomEquations
+  }
+
+  return axios.patch(url, data)
+    .then(response => response.data)
+    .catch(handleAxiosError)
+
+}
+
 // const toggleWatching = (url, symbol, name) => {
 //   const data = {
 //     format: 'json',
@@ -355,5 +369,5 @@ const getKiwoomEquations = (serverAddress, accountNo) => {
 
 export {
   updateLogin, getAllSymbols, getWatchList, addWatchList, removeWatchList,
-  getKiwoomEquations
+  getKiwoomEquations, updateKiwoomEquations
 }
